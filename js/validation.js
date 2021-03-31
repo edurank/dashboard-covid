@@ -1,17 +1,41 @@
-function validation() {
-    let name = document.getElementById("nome").value;
-    let email = document.getElementById("email").value;
-    let senha = document.getElementById("senha").value;
-    let repSenha = document.getElementById("rep_senha").value;
+// mudando o texto padrão do required do html
+const fields = document.querySelectorAll("[required");
 
-    
-    /* formating name ruler: Bigger than 4 and lass than 150 char
-        cannot contain numbers and especial characteres
-    */
-    var re = /^[A-Za-z]+$/;
-    if (re.name && name.length <= 150 && name.length > 4) {
-        alert(name.toLowerCase());
+function customValidation(event) {
+
+    const field = event.target;
+
+    // fazendo a mensagem de erro pular de posição
+    function errorValidity() {
+        let foundError = false;
+
+        for (error in field.validity) {
+            if (error != "customError" && field.validity[error]) {
+                foundError = error;
+            }
+        }
+        return foundError;
     }
 
+    const mapError = errorValidity();
+
+    if (mapError) {
+        // trocando mensagem do required
+        field.setCustomValidity("Favor, preencha o campo corretamente");
+    } else {
+        field.setCustomValidity("");
+    }
 
 }
+
+
+// calling the customValidation for the two requiredd field
+for (field of fields) {
+    field.addEventListener("invalid", customValidation);
+}
+
+
+// do not submit the form
+document.addEventListener("submit", (event) => {
+    event.preventDefault();
+});

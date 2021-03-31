@@ -1,0 +1,22 @@
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background-image: linear-gradient(200deg, #4e73df, #48509c, #484879)
+}
+
+/* Logo */
+.sidebar-brand-icon {
+    color: white;
+
+}
+
+.sidebar-brand-text {
+    color: white;
+}
+
