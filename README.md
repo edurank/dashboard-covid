@@ -1,1 +1,1 @@
-# dashboar-covid
+# dashboard-covid
