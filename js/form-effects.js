@@ -12,20 +12,15 @@ for (let i = 0; i < fieldFocus.length; i++) {
             fieldFocus[i].classList.remove("focus");
         }
     })
+}
 
-    // making the password visaaible and hidden
-    const eyeShow = document.getElementById('eye-show');
-    const eyeHidden = document.getElementById("eye-hidden");
-
-    eyeShow.addEventListener("click", () => {
-        eyeShow.style.display = 'none';
-        eyeHidden.style.display = 'block'
-        fieldFocus[1].type = 'text';
-    });
-
-    eyeHidden.addEventListener("click", () => {
-        eyeShow.style.display = 'block';
-        eyeHidden.style.display = 'none';
-        fieldFocus[1].type = 'password';
-    });
+function mostraSenha(id, elemento) {
+    var aux = document.getElementById(id);
+    if (aux.type === "password") {
+        aux.type = "text";
+        elemento.className = "fas fa-eye";
+    } else {
+        aux.type = "password";
+        elemento.className = "far fa-eye-slash";
+    }
 }
