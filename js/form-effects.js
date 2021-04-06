@@ -13,7 +13,7 @@ for (let i = 0; i < fieldFocus.length; i++) {
         }
     })
 
-    // making the password visible and hidden
+    // making the password visaaible and hidden
     const eyeShow = document.getElementById('eye-show');
     const eyeHidden = document.getElementById("eye-hidden");
 
