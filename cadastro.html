@@ -15,7 +15,7 @@
         var senha = cadastro.senha.value;
         var rep_senha = cadastro.rep_senha.value;
 
-        if (senha == "" || senha.length <= 6) {
+        if (senha == "" || senha.length < 6) {
           alert("O campo Senha tem que ter no mínimo 6 caracteres !!");
           cadastro.senha.focus();
           return false;
@@ -25,7 +25,13 @@
           cadastro.rep_senha.focus();
           return false;
         }
-      }
+
+        var nomeCad  = document.getElementById("campoNome").value;
+        var senhaCad = document.getElementById("pwd").value;
+        var emailCAd = document.getElementById("campoEmail").value;
+        
+        cadastrarUsuario(nomeCad, emailCad, senhaCad);
+     }
     </script>
   </head>
 
@@ -36,17 +42,17 @@
           <div class="sidebar-brand-icon">
               <i class="far fa-eye"></i>
           </div>
-          <div class="sidebar-brand-text ">Epi Vision</div>
+          <div class="sidebar-brand-text ">EPI Vision</div>
       </div>
 
 
       <div class="txtb">
-        <input type="text" name="nome" required/>
+        <input type="text" name="nome" id="campoNome" required/>
         <span data-placeholder="Nome"></span>
       </div>
 
       <div class="txtb">
-        <input type="text" name="email" required/>
+        <input type="text" name="email" id="campoEmail" required/>
         <span data-placeholder="E-mail"></span>
       </div>
 
@@ -75,5 +81,7 @@
 
     <script src="js/form-effects.js"></script>
     <script src="js/validation.js"></script>
+    s
+    
   </body>
 </html>
