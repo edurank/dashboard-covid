@@ -3,6 +3,8 @@ const con = require('./config/connection')();
 const app = express();
 //var db = require('./config/db');
 
+var data = {};
+
 app.use(express.static("./public"));
 
 app.set("view engine", "ejs");
@@ -15,20 +17,15 @@ app.get("/dashboard", function (req, res){
     res.render("pages/dashboard");
 })
 
-var data = {};
 app.get("/funcionarios", function (req, res) {
 
     con.query('SELECT * FROM funcionarios', function (e, resultado) {
         if (e) { throw e; }
         else{
-            console.log(resultado);
             data = {print: resultado};
             res.render('pages/funcionarios', data);
         }
     });
-
-    //res.render("pages/funcionarios", JSON.stringify({data: db.selectFuncionarios}));
-    //res.render("pages/funcionarios", {"data": JSON.stringify(db.selectFuncionarios)});
 })
 
 app.get("/detalhes", function (req, res) {
@@ -40,7 +37,15 @@ app.get("/monitoramento", function (req, res){
 })
 
 app.get("/avisos", function (req, res) {
-    res.render("pages/avisos");
+
+    con.query('SELECT * FROM avisos', function (e, resultado) {
+        if (e) { throw e; }
+        else{
+            data = {print: resultado};
+            res.render('pages/avisos', data);
+        }
+    });
+
 })
 
 app.get("/cadastrar", function (req, res) {
