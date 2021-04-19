@@ -1,6 +1,7 @@
 const express = require('express');
+const con = require('./config/connection')();
 const app = express();
-var db = require('./config/db')();
+//var db = require('./config/db');
 
 app.use(express.static("./public"));
 
@@ -14,8 +15,20 @@ app.get("/dashboard", function (req, res){
     res.render("pages/dashboard");
 })
 
+var data = {};
 app.get("/funcionarios", function (req, res) {
-    res.render("pages/funcionarios")
+
+    con.query('SELECT * FROM funcionarios', function (e, resultado) {
+        if (e) { throw e; }
+        else{
+            console.log(resultado);
+            data = {print: resultado};
+            res.render('pages/funcionarios', data);
+        }
+    });
+
+    //res.render("pages/funcionarios", JSON.stringify({data: db.selectFuncionarios}));
+    //res.render("pages/funcionarios", {"data": JSON.stringify(db.selectFuncionarios)});
 })
 
 app.get("/detalhes", function (req, res) {
