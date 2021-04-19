@@ -6,10 +6,6 @@ app.use(express.static("./public"));
 
 app.set("view engine", "ejs");
 
-db.sendAlert()
-
-
-
 app.get("/", function (req, res) {
     res.render("pages/index");
 })
