@@ -94,8 +94,11 @@
                                                     <td style="background-color: #ffd9d9;">Sim</td>
                                                     <% } %>
                                                 <td><%= funcionario.avisos %></td>
-                                       
-                                                <td><button class="btn btn-primary">Consultar</button></td>
+                                                <% if(funcionario.avisos == '0') { %>
+                                                    <td><button class="btn btn-secondary" disabled>Não possui aviso</button></td>
+                                                <% } else { %>
+                                                    <td><button class="btn btn-primary">Consultar</button></td>
+                                                <% } %>
                                             </tr>
                                         <% }) %>
                                     </tbody>

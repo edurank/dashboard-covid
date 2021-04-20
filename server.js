@@ -18,7 +18,6 @@ app.get("/dashboard", function (req, res){
 })
 
 app.get("/funcionarios", function (req, res) {
-
     con.query('SELECT * FROM funcionarios', function (e, resultado) {
         if (e) { throw e; }
         else{

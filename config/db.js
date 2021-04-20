@@ -77,10 +77,7 @@ function selectFuncionarios() {
 		console.log(res);
 	});
 }
-
 // FIM 'FUNCIONARIOS'
-
-
 
 
 // INÍCIO 'USUARIOS'

@@ -60,7 +60,7 @@
                                 <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
                                 <script type="text/javascript">
             
-                                    const URL = "https://teachablemachine.withgoogle.com/models/AXLDBSdTI/";
+                                    const URL = "https://teachablemachine.withgoogle.com/models/PI5WkIKYD/";
 
                                     let model, webcam, labelContainer, maxPredictions;
 
@@ -81,8 +81,8 @@
 
                                         labelContainer = document.getElementById("label-container");
                                         for (let i = 0; i < maxPredictions; i++) { // and class labels
+                                            console.log(labelContainer);
                                             labelContainer.appendChild(document.createElement("div"));
-                                            
                                         }
                                         document.getElementById("webcam-container").appendChild(webcam.canvas);
                                      
@@ -101,7 +101,20 @@
                                         for (let i = 0; i < maxPredictions; i++) {
                                             const classPrediction =
                                                     prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-                                            labelContainer.childNodes[i].innerHTML = classPrediction;
+                                            
+                                            if(prediction[i].className == "sem-mascara" && prediction[i].probability.toFixed(2) >= 0.80){
+                                                labelContainer.childNodes[2].innerHTML = "Sem máscara";
+                                                labelContainer.childNodes[1].innerHTML = "";
+                                                labelContainer.childNodes[0].innerHTML = "";
+                                            } else if(prediction[i].className == "com-mascara" && prediction[i].probability.toFixed(2) >= 0.80){
+                                                labelContainer.childNodes[1].innerHTML = "Com máscara";
+                                                labelContainer.childNodes[0].innerHTML = "";
+                                                labelContainer.childNodes[2].innerHTML = "";
+                                            } else if(prediction[i].className == "nao-detectado" && prediction[i].probability.toFixed(2) >= 0.80){
+                                                labelContainer.childNodes[0].innerHTML = "Nada detectado";
+                                                labelContainer.childNodes[1].innerHTML = "";
+                                                labelContainer.childNodes[2].innerHTML = "";
+                                            }
                                         }
                                     }
                                 </script>

@@ -82,94 +82,20 @@
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        <tr>
-                                            <td>00001</td>
-                                            <td>Luiz Eduardo</td>
-                                            <td>24</td>        
-                                            <td>TI</td>
-                                            <td>3</td>
-                                            <td><button>Consulta</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>00002</td>
-                                            <td>Dária Amado Junqueira</td>
-                                            <td>38</td>        
-                                            <td>RH</td>
-                                            <td>0</td>
-                                            <td><button>Consulta</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>00003</td>
-                                            <td>Abigail Parafita Feira</td>
-                                            <td>35</td>        
-                                            <td>TI</td>
-                                            <td>0</td>
-                                            <td><button>Consulta</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>00004</td>
-                                            <td>Ana Beltrán</td>
-                                            <td>30</td>        
-                                            <td>RH</td>
-                                            <td>2</td>
-                                            <td><button>Consulta</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>00005</td>
-                                            <td>Caím Frois</td>
-                                            <td>29</td>        
-                                            <td>Financeiro</td>
-                                            <td>1</td>
-                                            <td><button>Consulta</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>00006</td>
-                                            <td>Conrado Abranches</td>
-                                            <td>33</td>        
-                                            <td>RH</td>
-                                            <td>0</td>
-                                            <td><button>Consulta</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>00007</td>
-                                            <td>Dinarte Franca</td>
-                                            <td>28</td>        
-                                            <td>Administrativo</td>
-                                            <td>2</td>
-                                            <td><button>Consulta</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>00008</td>
-                                            <td>Diodete Linhares</td>
-                                            <td>27</td>        
-                                            <td>Administrativo</td>
-                                            <td>0</td>
-                                            <td><button>Consulta</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>00009</td>
-                                            <td>Hermano Franca</td>
-                                            <td>30</td>        
-                                            <td>TI</td>
-                                            <td>1</td>
-                                            <td><button>Consulta</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>00010</td>
-                                            <td>Júlio Pavía</td>
-                                            <td>24</td>        
-                                            <td>TI</td>
-                                            <td>1</td>
-                                            <td><button>Consulta</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>00011</td>
-                                            <td>Querubim Colares</td>
-                                            <td>24</td>        
-                                            <td>TI</td>
-                                            <td>3</td>
-                                            <td><button>Consulta</button></td>
-                                        </tr>
+                                        <% print.forEach(function (aviso) { %>
+                                            <tr>
+                                                <td><%= aviso.id %></td>
+                                                <td><%= aviso.id_func %></td>
+                                                <td><%= aviso.data %></td>
+                                                <td><%= aviso.departamento %></td>
+                                                <td>
+                                                    <% aviso.img_path.split(",").forEach(element => { %>
+                                                        <a href="/css/img/<%- element %>.png"><img src="/css/img/<%- element %>.png" width="50px" height="50px"></a>
+                                                    <% }); %>
+                                                </td>
+                                                <td><button class="btn btn-primary">Consultar</button></td>
+                                            </tr>
+                                        <% }) %>
                                     </tbody>
                                 </table>
                             </div>
