@@ -53,6 +53,8 @@
                                 
                                 <h4 class="m-0 font-weight-bold text-light">Monitoramento em tempo real</h4>
 
+                                <!--  SCRIPT TEACHABLE MACHINE -->
+
                                 <div id="label-container"></div>
                                 <div id="webcam-container"></div>
                                 
@@ -60,10 +62,11 @@
                                 <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
                                 <script type="text/javascript">
             
+
+
                                     const URL = "https://teachablemachine.withgoogle.com/models/PI5WkIKYD/";
 
                                     let model, webcam, labelContainer, maxPredictions;
-
 
                                     async function init() {
                                         const modelURL = URL + "model.json";
@@ -75,7 +78,7 @@
 
                                         const flip = true; // whether to flip the webcam
                                         webcam = new tmImage.Webcam(400, 400, flip); // width, height, flip
-                                        await webcam.setup(); // request access to the webcam
+                                        await webcam.setup(); // Requisição da webcam
                                         await webcam.play();
                                         window.requestAnimationFrame(loop);
 
@@ -96,12 +99,16 @@
 
                                     // run the webcam image through the image model
                                     async function predict() {
+
                                         // predict can take in an image, video or canvas html element
                                         const prediction = await model.predict(webcam.canvas);
+
                                         for (let i = 0; i < maxPredictions; i++) {
                                             const classPrediction =
                                                     prediction[i].className + ": " + prediction[i].probability.toFixed(2);
                                             
+
+                                            // GAMBIARRA DOIDA
                                             if(prediction[i].className == "sem-mascara" && prediction[i].probability.toFixed(2) >= 0.80){
                                                 labelContainer.childNodes[2].innerHTML = "Sem máscara";
                                                 labelContainer.childNodes[1].innerHTML = "";

@@ -24,7 +24,7 @@
         rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="./css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="./css/sb-admin-2.css" rel="stylesheet">
 
     <!-- Custom styles for this page -->
     <link href="./vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -65,7 +65,6 @@
                                             <th>Nome</th>
                                             <th>Idade</th>
                                             <th>Departamento</th>
-                                            <td>Grupo de Risco</td>
                                             <th>Avisos</th>
                                             <th>Consultar avisos</th>
                                         </tr>
@@ -76,7 +75,6 @@
                                             <th>Nome</th>
                                             <th>Idade</th>
                                             <th>Departamento</th>
-                                            <td>Grupo de Risco</td>
                                             <th>Avisos</th>
                                             <th>Consultar avisos</th>
                                         </tr>
@@ -88,11 +86,11 @@
                                                 <td><%= funcionario.nome %></td>
                                                 <td><%= funcionario.idade %></td>
                                                 <td><%= funcionario.departamento %></td>
-                                                <% if(funcionario.grupo_risco == '0') { %>
+                                                <!-- <% if(funcionario.grupo_risco == '0') { %>
                                                     <td style="background-color: #b3fcc7;">Não</td>
                                                 <% } else {%>
                                                     <td style="background-color: #ffd9d9;">Sim</td>
-                                                    <% } %>
+                                                    <% } %> -->
                                                 <td><%= funcionario.avisos %></td>
                                                 <% if(funcionario.avisos == '0') { %>
                                                     <td><button class="btn btn-secondary" disabled>Não possui aviso</button></td>

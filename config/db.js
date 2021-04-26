@@ -17,6 +17,10 @@ connection.connect(function(err) {
 	console.log('Conectado ao banco.');
 });
 
+
+
+
+
 // FUNCIONARIOS
 function getFuncionarios() {
 	connection.query('SELECT * FROM funcionarios', function(error, results, fields) {
@@ -27,7 +31,7 @@ function getFuncionarios() {
 			console.log(result);
 		});
 	});
-}
+} 
 
 //cadastrarUsuario("Edu", "edu@gamcil.com", "asdadjijdas");
 
@@ -51,10 +55,29 @@ function getUsuarios() {
 	- grupo_risco (int)  * 0 = false / 1 = true
 */
 
-// Cadastra um funcionário no sistema
-function cadastraFuncionario() {
+// Pie chart (pega quantidade de avisos por departamento)
+function getAvisosByDepartamento() {
+	var query = `SELECT departamento, COUNT(*)FROM avisos GROUP BY departamento;`;
 
+	connection.query(query, function(error, results, fields) {
+		if (error) throw error;
+
+		console.log(results);
+	});
 }
+
+// Pega quantidade de casos por semana
+function getAvisosBySemana() {
+	var query = `SELECT data, COUNT(*)FROM avisos GROUP BY data`;
+	
+	connection.query(query, function(error, results, fields) {
+		if (error) throw error;
+
+		console.log(results);
+	});
+}
+
+
 
 // Deleta o funcionário no sistema
 function deletaFuncionario() {
@@ -78,7 +101,6 @@ function selectFuncionarios() {
 	});
 }
 // FIM 'FUNCIONARIOS'
-
 
 // INÍCIO 'USUARIOS'
 /*  tabela 'usuarios'
@@ -109,9 +131,6 @@ function deletaUsuario() {
 		console.log(id + " removido do banco");
 	});
 }
-
-
-
 
 function verificaDuplicate(nome) {
 	var query = "SELECT * FROM usuarios WHERE nome = '" + nome + "')";

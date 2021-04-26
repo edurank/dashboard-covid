@@ -5,7 +5,7 @@
 // Pie Chart Example
 var ctx = document.getElementById("myPieChart");
 var myPieChart = new Chart(ctx, {
-  type: 'doughnut',
+  type: 'pie',
   data: {
     labels: ["TI", "RH", "Financeiro", "Administração"],
     datasets: [{
@@ -17,6 +17,11 @@ var myPieChart = new Chart(ctx, {
     }],
   },
   options: {
+    onAnimationComplete: function()
+    {
+        this.showTooltip(this.segments, true);
+    },
+    tooltipEvents: [],
     maintainAspectRatio: false,
     animation: {
       duration: 1500,
@@ -36,5 +41,6 @@ var myPieChart = new Chart(ctx, {
       display: false
     },
     cutoutPercentage: 80,
+    showTooltips: true
   },
 });
