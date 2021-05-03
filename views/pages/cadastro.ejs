@@ -13,17 +13,19 @@
     ></script>
 
    <script type="text/javascript">
+
       function validar() {
+
         var senha = cadastro.senha.value;
         var rep_senha = cadastro.rep_senha.value;
 
         if (senha == "" || senha.length <= 6) {
-          alert("O campo Senha tem que ter no mínimo 6 caracteres !!");
+          alert("O campo Senha tem que ter no mínimo 6 caracteres.");
           cadastro.senha.focus();
           return false;
         }
         if (senha != rep_senha) {
-          alert("As senhas estão diferentes");
+          alert("As senhas estão diferentes.");
           cadastro.rep_senha.focus();
           return false;
         }
@@ -35,11 +37,11 @@
   <body>
     <form name="cadastro" action="perfil.html" class="login-form-cadastro">
         <!-- Logo -->
-        <div class="container-icon">
+      <div class="container-icon">
           <div class="sidebar-brand-icon">
               <i class="far fa-eye"></i>
           </div>
-          <div class="sidebar-brand-text ">Epi Vision</div>
+          <div class="sidebar-brand-text ">EPI Vision</div>
       </div>
 
 

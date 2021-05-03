@@ -17,10 +17,6 @@ connection.connect(function(err) {
 	console.log('Conectado ao banco.');
 });
 
-
-
-
-
 // FUNCIONARIOS
 function getFuncionarios() {
 	connection.query('SELECT * FROM funcionarios', function(error, results, fields) {
@@ -77,8 +73,6 @@ function getAvisosBySemana() {
 	});
 }
 
-
-
 // Deleta o funcionário no sistema
 function deletaFuncionario() {
 	var query = `DELETE FROM funcionarios WHERE id = "`+id+`"`;
@@ -100,8 +94,9 @@ function selectFuncionarios() {
 		console.log(res);
 	});
 }
-// FIM 'FUNCIONARIOS'
 
+
+// FIM 'FUNCIONARIOS'
 // INÍCIO 'USUARIOS'
 /*  tabela 'usuarios'
 	- id (PRIMARY)
@@ -118,6 +113,18 @@ function cadastrarUsuario(nome, email, senha) {
 		if (error) throw error;
 
 		console.log(nome + " adicionado ao banco");
+	});
+}
+
+//loginUsuario("fulano", "123456");
+
+function loginUsuario(user, senha) {
+	var query = `SELECT * from usuarios WHERE usuario = '` + user + `'AND senha = '` + senha + `';`;
+
+	connection.query(query, function(error, results, fields) {
+		if (error) throw error;
+
+		console.log(results);
 	});
 }
 

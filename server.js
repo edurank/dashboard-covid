@@ -9,9 +9,17 @@ app.use(express.static("./public"));
 
 app.set("view engine", "ejs");
 
-app.get("/", function (req, res) {
-    res.render("pages/index");
+app.get('/', function(req, res){
+    res.redirect('/login');
+});
+
+app.get("/login", function (req, res) {
+    res.render("pages/login");
 })
+
+app.post("/", function (req, res)) {
+    
+});
 
 app.get("/dashboard", function (req, res){
     res.render("pages/dashboard");
@@ -26,6 +34,10 @@ app.get("/funcionarios", function (req, res) {
         }
     });
 })
+    
+app.post("/funcionarios", function (req, res) {
+
+});
 
 app.get("/detalhes", function (req, res) {
     res.render("pages/detalhes")
@@ -36,7 +48,6 @@ app.get("/monitoramento", function (req, res){
 })
 
 app.get("/avisos", function (req, res) {
-
     con.query('SELECT * FROM avisos', function (e, resultado) {
         if (e) { throw e; }
         else{
@@ -44,7 +55,6 @@ app.get("/avisos", function (req, res) {
             res.render('pages/avisos', data);
         }
     });
-
 })
 
 app.get("/cadastrar", function (req, res) {
