@@ -13,38 +13,50 @@ app.get('/', function(req, res){
     res.redirect('/login');
 });
 
+// -=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-
+//                LOGIN
+
 app.get("/login", function (req, res) {
     res.render("pages/login");
-})
-
-app.post("/", function (req, res)) {
-    
 });
+
+app.post("/login", function (req, res) {
+    console.log("teste2");
+    console.log(req.cadastro.usuario);
+});
+
+// -=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-
+//              DASHBOARD
 
 app.get("/dashboard", function (req, res){
     res.render("pages/dashboard");
 })
 
+// -=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-
+//             FUNCIONÁRIOS
+
 app.get("/funcionarios", function (req, res) {
-    con.query('SELECT * FROM funcionarios', function (e, resultado) {
-        if (e) { throw e; }
-        else{
-            data = {print: resultado};
+    con.query('SELECT * FROM funcionarios', function (erro, resultado) {
+        if (erro) {
+            throw erro;
+        } else {
+            data = { print: resultado };
             res.render('pages/funcionarios', data);
         }
     });
-})
-    
-app.post("/funcionarios", function (req, res) {
-
 });
 
+app.post("/funcionarios", function (req, res) {
+    
+});
+// -=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-
+
 app.get("/detalhes", function (req, res) {
-    res.render("pages/detalhes")
+    res.render("pages/detalhes");
 })
 
 app.get("/monitoramento", function (req, res){
-    res.render("pages/monitoramento")
+    res.render("pages/monitoramento");
 })
 
 app.get("/avisos", function (req, res) {
