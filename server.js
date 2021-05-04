@@ -1,16 +1,27 @@
 const express = require('express');
+const connection = require('./config/connection');
 const con = require('./config/connection')();
 const app = express();
-//var db = require('./config/db');
 
 var data = {};
 
+// config
 app.use(express.static("./public"));
-
 app.set("view engine", "ejs");
+
+// middleware
+app.use(express.urlencoded({
+  extended: false
+}));
+
+// -=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 app.get('/', function(req, res){
     res.redirect('/login');
+});
+
+app.get('/teste', function(a, b) {
+    b.render('pages/teste');
 });
 
 // -=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -21,8 +32,18 @@ app.get("/login", function (req, res) {
 });
 
 app.post("/login", function (req, res) {
-    console.log("teste2");
-    console.log(req.cadastro.usuario);
+    console.log(req.body.username);
+    var query = `SELECT * from usuarios WHERE usuario = '` + req.body.username + `'AND senha = '` + req.body.password + `';`;
+    con.query(query, function(error, results, fields) {
+        if (error) throw error;
+
+        if (results.length > 0) {
+            res.render("pages/dashboard", { usuario: req.body.username });
+        } else {
+
+        }
+        console.log(results);
+    });
 });
 
 // -=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-
