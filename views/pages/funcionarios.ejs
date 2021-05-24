@@ -35,23 +35,16 @@
 
     <!-- Page Wrapper -->
     <div id="wrapper">
-
         <!-- Sidebar -->
         <%- include('../partials/sidebar'); %>
         <!-- End of Sidebar -->
-
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
-
             <!-- Main Content -->
             <div id="content">
-
-
-
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                  
-                    <!-- DataTales Example -->
+                <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">Avisos</h6>
@@ -86,18 +79,16 @@
                                                 <td><%= funcionario.nome %></td>
                                                 <td><%= funcionario.idade %></td>
                                                 <td><%= funcionario.departamento %></td>
-                                                <!-- <% if(funcionario.grupo_risco == '0') { %>
-                                                    <td style="background-color: #b3fcc7;">Não</td>
+                                                <% if(funcionario.grupo_risco == '0') { %>
+                                                    <td style="background-color: #99ffb4;">Não</td>
                                                 <% } else {%>
-                                                    <td style="background-color: #ffd9d9;">Sim</td>
-                                                    <% } %> -->
+                                                    <td style="background-color: #a70000;">Sim</td>
+                                                    <% } %>
                                                 <td><%= funcionario.avisos %></td>
                                                 <% if(funcionario.avisos == '0') { %>
                                                     <td><button class="btn btn-secondary" disabled>Não possui aviso</button></td>
                                                 <% } else { %>
-                                                    <form>
-                                                        <td><button class="btn btn-primary" formaction="/detalhes?id=<% funcionario.id %>">Consultar</button></td>
-                                                    </form>
+                                                        <td><a class="btn btn-primary" href="/detalhes?id=<%= funcionario.id %>">Consultar</a></td>
                                                 <% } %>
                                             </tr>
                                         <% }) %>
@@ -106,16 +97,12 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <!-- /.container-fluid -->
-
             </div>
             <!-- End of Main Content -->
-
         </div>
         <!-- End of Content Wrapper -->
-
     </div>
     <!-- End of Page Wrapper -->
 

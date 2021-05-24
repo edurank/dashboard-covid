@@ -1,5 +1,5 @@
 var mysql = require('mysql');
-	// realiza a conexao
+// Conexão ao banco de dados
 
 module.exports = function () {
     var connection = mysql.createConnection({
@@ -9,7 +9,6 @@ module.exports = function () {
         password : '',
     });
 
-
     connection.connect(function(err) {
         if(err) {
             console.error("Erro ao conectar: " + err.stack);
@@ -18,5 +17,8 @@ module.exports = function () {
         console.log('Conectado ao banco.');
     });
 
+
     return connection;
 }
+
+

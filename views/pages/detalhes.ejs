@@ -24,7 +24,7 @@
         rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="./css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="./css/sb-admin-2.css" rel="stylesheet">
 
     <!-- Custom styles for this page -->
     <link href="./vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -52,18 +52,37 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <button type="button" class="btn btn-primary">Voltar</button>
+                            <a type="button" class="btn btn-primary" href="/funcionarios">Voltar</a>
                         </div>
                         <div class="card-body">
-                            <span>Nome: </span><span>Luiz Eduardo</span>
-                            <span>Idade: </span><span>24</span>
-                            <span>Avisos: </span><span>3</span>
+                            <% if (typeof aviso[0] === "undefined") { %>
+                                <span>Aviso não existente</span>
+                            <% } else { %>
+                                <h6>Nome: <%= aviso[0].nome %> </h6>
+                                <h6>Departamento: <%= aviso[0].departamento %> </h6>
+                                <h6>Avisos: <%= aviso[0].avisos %></h6>
+                                <% if (aviso[0].grupo_risco == 0) { %>
+                                    <h6>Grupo de risco: Não</h6>
+                                <% } else { %>
+                                    <h6>Grupo de risco: Sim</h6>
+                                <% } %>
+                                </br>
+                                <h2>Lista de avisos:</h2>
+                                <table>
+
+                                    <% aviso.forEach(function (x) { %>
+                                        <td>
+                                        <tr><h6>Data: <%= x.data %></h6></tr>
+                                        <tr><h6>Imagens: <%= x.img_path %></h6></tr>
+                                        </br></br>
+                                        </td>
+                                    <% }) %>    
+                                </table>
+                            <% } %>
                         </div>
                     </div>
-
                 </div>
                 <!-- /.container-fluid -->
-
             </div>
             <!-- End of Main Content -->
 
@@ -78,25 +97,6 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="/">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="./vendor/jquery/jquery.min.js"></script>

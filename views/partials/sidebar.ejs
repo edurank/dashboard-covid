@@ -6,7 +6,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="far fa-eye"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">Api Vision</div>
+                <div class="sidebar-brand-text mx-3">EPI Vision</div>
             </a>
 
             <!-- Divider -->
@@ -26,7 +26,6 @@
                 <span>Monitoramento</span></a>
             </li>
              
-
             <!-- Nav Item - Funcionario Collapse -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFunc"
@@ -50,7 +49,7 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                     aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
+                    <i class="fas fa-fw fa-cog"></i>
                     <span>Config.</span>
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -69,21 +68,24 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsuario"
                     aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Bem Vindo!</span>
+                    <i class="fas fa-fw fa-user"></i>
+                    <% if(typeof usuario === "undefined") { %>
+                   
+                    <% } else { %>
+                        <span>Bem vindo, <%= usuario %></span> 
+                    <% } %>
                 </a>
                 <div id="collapseUsuario" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Opções</h6>
-                        <a class="collapse-item" href="/">Meu usuário</a>
-                        <a class="collapse-item" href="#">Sair</a>
+                        <a class="collapse-item" href="/conf">Meu usuário</a>
+                        <a class="collapse-item" href="/login">Sair</a>
                 </div>
             </li>
-        
+
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
-
         </ul>
         <!-- End of Sidebar -->

@@ -9,8 +9,7 @@
 
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
-      charset="utf-8"
-    ></script>
+      charset="utf-8"></script>
 
    <script type="text/javascript">
 
@@ -31,11 +30,9 @@
         }
       }
     </script>
-
   </head>
-
   <body>
-    <form name="cadastro" action="perfil.html" class="login-form-cadastro">
+    <form name="cadastro" action="/cad" method="post" class="login-form-cadastro">
         <!-- Logo -->
       <div class="container-icon">
           <div class="sidebar-brand-icon">
@@ -43,7 +40,6 @@
           </div>
           <div class="sidebar-brand-text ">EPI Vision</div>
       </div>
-
 
       <div class="txtb">
         <input type="text" name="nome" required/>
@@ -55,7 +51,11 @@
         <span data-placeholder="E-mail"></span>
       </div>
 
-      <!-- terminar a show and hidden do form -->
+      <div class="txtb">
+        <input type="text" name="usuario" required/>
+        <span data-placeholder="Usuario"></span>
+      </div>
+
       <div class="txtb">
         <h3><i class="fas fa-eye" id="eye-show"></i></h3>
         <input type="password" name="senha" required/>
@@ -63,7 +63,6 @@
         <h3><i class="far fa-eye-slash" id="eye-hidden" style="display: none;"></i></h3>
       </div>
 
-      <!-- terminar a show and hidden do form -->
       <div class="txtb">
         <h3><i class="fas fa-eye" id="eye-show"></i></h3>
         <input type="password" name="rep_senha" required/>
@@ -71,17 +70,12 @@
         <h3><i class="far fa-eye-slash" id="eye-hidden" style="display: none;"></i></h3>
       </div>
 
-      <input
-        type="submit"
-        class="logbtn"
-        value="CADASTRAR"
-        onclick="return validar()"
-      />
+      <input type="submit" class="logbtn" value="Cadastrar">
 
     </form>
 
     <script src="./js/form-effects.js"></script>
-    <script src="./js/validation.js"></script>
+
     
   </body>
 </html>
