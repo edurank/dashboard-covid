@@ -1,14 +1,14 @@
 let departamentos = ["TI", "RH", "Financeiro", "Administração"];
-var dados = '<%= teste %>';
+
 let colorHex = ['#FB3640', '#EFCA08', '#43AA8B', '#253D5B'];
-console.log(dados);
+
 
 var ctx = document.getElementById("myPieChart").getContext('2d');
 var myPieChart = new Chart(ctx, {
   type: 'pie',
   data: {
     datasets: [{
-      data: dados,
+      data: ['50', '30', '10', '10'],
       backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#34a2ff'],
       hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
       hoverBorderColor: "rgba(234, 236, 244, 1)",
@@ -37,9 +37,9 @@ var myPieChart = new Chart(ctx, {
         borderWidth: 2,
         borderColor: '#fff',
         borderRadius: 25,*/
-        backgroundColor: (context) => {
+        /*backgroundColor: (context) => {
           return context.dataset.backgroundColor;
-        },
+        },*/
         font: {
           weight: 'bold',
           size: '15'

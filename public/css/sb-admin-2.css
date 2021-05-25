@@ -11294,3 +11294,20 @@ body.sidebar-toggled footer.sticky-footer {
   position: absolute;
   transform: translate(-50%, -50%);
 }
+
+
+/* avisos */
+.card-detalhes {
+  border: 3px;
+  border-color: green;
+}
+
+.clickable {
+  overflow: hidden;
+  transition: width 600ms ease-out, height 600ms ease-out;
+}
+
+.clickable--collapsed {
+  width: 200px;
+  height: 60px;
+}

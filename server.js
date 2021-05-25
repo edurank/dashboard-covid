@@ -101,7 +101,7 @@ app.post("/funcionarios", function (req, res) {
 // -=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 app.get("/detalhes", function (req, res) {
-    con.query(`SELECT * FROM avisos INNER JOIN funcionarios ON avisos.id_func = funcionarios.id WHERE id_func = '` + req.query.id +`'`, function (e, resultado) {
+    con.query(`SELECT * FROM avisos INNER JOIN funcionarios ON avisos.id_funcionario = funcionarios.id WHERE id_funcionario = '` + req.query.id +`'`, function (e, resultado) {
         if (e) { throw e; }
         else{
             console.log(resultado);
@@ -119,15 +119,10 @@ app.get("/monitoramento", function (req, res){
 })
 
 app.get("/avisos", function (req, res) {
-    con.query('SELECT * FROM avisos', function (e, resultado) {
+    con.query('SELECT * FROM avisos INNER JOIN funcionarios ON avisos.id_funcionario = funcionarios.id', function (e, resultado) {
         if (e) { throw e; }
         else{
-            var n;
-            for (n in resultado) {
-
-                console.log(typeof(resultado[n].data))
-            }
-            //data = {print: resultado, usuario: ''};
+            console.log(resultado);
             res.render('pages/avisos', {print: resultado, usuario: 'fulano'});
         }
     });

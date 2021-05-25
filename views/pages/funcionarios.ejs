@@ -1,21 +1,14 @@
-<!-- 
-
-    - Lista todos os funcionários cadastrados no sistema, independente se o mesmo tiver aviso ou não.
-
--->
-
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Tabela</title>
+    <title>Funcionáios</title>
 
     <!-- Custom fonts for this template -->
     <link href="./vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -47,18 +40,20 @@
                 <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Avisos</h6>
+                            <h2 class="m-0 font-weight-bold text-primary" style="padding-left:45%">Avisos</h2>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <table class="table table-bordered table-striped table-dark" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
                                             <th>Nome</th>
                                             <th>Idade</th>
                                             <th>Departamento</th>
+                                            <th>Grupo de Risco</th>
                                             <th>Avisos</th>
+                                            <th>Status</th>
                                             <th>Consultar avisos</th>
                                         </tr>
                                     </thead>
@@ -68,7 +63,9 @@
                                             <th>Nome</th>
                                             <th>Idade</th>
                                             <th>Departamento</th>
+                                            <th>Grupo de Risco</th>
                                             <th>Avisos</th>
+                                            <th>Status</th>
                                             <th>Consultar avisos</th>
                                         </tr>
                                     </tfoot>
@@ -80,11 +77,12 @@
                                                 <td><%= funcionario.idade %></td>
                                                 <td><%= funcionario.departamento %></td>
                                                 <% if(funcionario.grupo_risco == '0') { %>
-                                                    <td style="background-color: #99ffb4;">Não</td>
+                                                    <td >Não</td>
                                                 <% } else {%>
-                                                    <td style="background-color: #a70000;">Sim</td>
+                                                    <td >Sim</td>
                                                     <% } %>
                                                 <td><%= funcionario.avisos %></td>
+                                                <td>Status</td>
                                                 <% if(funcionario.avisos == '0') { %>
                                                     <td><button class="btn btn-secondary" disabled>Não possui aviso</button></td>
                                                 <% } else { %>
@@ -106,30 +104,6 @@
     </div>
     <!-- End of Page Wrapper -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="/">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="./vendor/jquery/jquery.min.js"></script>

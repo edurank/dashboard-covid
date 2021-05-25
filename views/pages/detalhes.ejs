@@ -52,30 +52,43 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <a type="button" class="btn btn-primary" href="/funcionarios">Voltar</a>
+                            <a type="button" class="btn btn-primary" href="/funcionarios">< Voltar</a>
                         </div>
+                        
                         <div class="card-body">
                             <% if (typeof aviso[0] === "undefined") { %>
                                 <span>Aviso não existente</span>
                             <% } else { %>
-                                <h6>Nome: <%= aviso[0].nome %> </h6>
-                                <h6>Departamento: <%= aviso[0].departamento %> </h6>
-                                <h6>Avisos: <%= aviso[0].avisos %></h6>
-                                <% if (aviso[0].grupo_risco == 0) { %>
-                                    <h6>Grupo de risco: Não</h6>
-                                <% } else { %>
-                                    <h6>Grupo de risco: Sim</h6>
-                                <% } %>
+                                <table class="table table-responsive" style="color:white">
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Departamento</th>
+                                        <th>Avisos</th>
+                                        <th>Grupo de Risco</th>
+                                    </tr>
+                                    <tr>
+                                        <td><%= aviso[0].nome %></td>
+                                        <td><%= aviso[0].departamento %></td>
+                                        <td><%= aviso[0].avisos %></td>
+                                        <% if (aviso[0].grupo_risco == 0) { %>
+                                            <td>Não</td>
+                                        <% } else { %>
+                                            <td>Sim</td>
+                                        <% } %>
+                                    </tr>
+                                </table>
                                 </br>
-                                <h2>Lista de avisos:</h2>
-                                <table>
-
+                                <h2 style="color:white">Lista de avisos:</h2>
+                                <table class="table table-bordered table-dark table-striped" style="width:100%;color:white">
+                                    <tr>
+                                        <th>Data</th>
+                                        <th>Imagens</th> 
+                                    </tr>
                                     <% aviso.forEach(function (x) { %>
-                                        <td>
-                                        <tr><h6>Data: <%= x.data %></h6></tr>
-                                        <tr><h6>Imagens: <%= x.img_path %></h6></tr>
-                                        </br></br>
-                                        </td>
+                                        <tr>
+                                            <td><%= x.data %></td>
+                                            <td><%= x.img_path %></td>
+                                        </tr>
                                     <% }) %>    
                                 </table>
                             <% } %>
@@ -111,9 +124,13 @@
     <!-- Page level plugins -->
     <script src="./vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="./vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    
 
     <!-- Page level custom scripts -->
     <script src="./js/demostracion/datatables-demo.js"></script>
+
+    <!-- Manipulação da data script -->
+    <script src="https://momentjs.com/downloads/moment.min.js"></script>
 
 </body>
 
