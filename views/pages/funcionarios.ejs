@@ -72,21 +72,27 @@
                                     <tbody>
                                         <% print.forEach(function (funcionario) { %>
                                             <tr>
-                                                <td><%= funcionario.id %></td>
-                                                <td><%= funcionario.nome %></td>
-                                                <td><%= funcionario.idade %></td>
-                                                <td><%= funcionario.departamento %></td>
-                                                <% if(funcionario.grupo_risco == '0') { %>
-                                                    <td >Não</td>
+                                                <td><%= funcionario.funcionario_id %></td>
+                                                <td><%= funcionario.funcionario_nome %></td>
+                                                <td><%= funcionario.funcionario_idade %></td>
+                                                <td><%= funcionario.departamento_nome %></td>
+                                                <% if(funcionario.funcionario_grupo_risco == '0') { %>
+                                                    <td>Não</td>
                                                 <% } else {%>
                                                     <td >Sim</td>
                                                     <% } %>
-                                                <td><%= funcionario.avisos %></td>
-                                                <td>Status</td>
-                                                <% if(funcionario.avisos == '0') { %>
+                                                <td><%= funcionario.funcionario_avisos %></td>
+                                                <td>
+                                                    <% if(funcionario.funcionario_status == '1') { %>
+                                                        Ativo
+                                                    <% } else { %>
+                                                        Afastado
+                                                    <% } %>
+                                                </td>
+                                                <% if(funcionario.funcionario_avisos == '0') { %>
                                                     <td><button class="btn btn-secondary" disabled>Não possui aviso</button></td>
                                                 <% } else { %>
-                                                        <td><a class="btn btn-primary" href="/detalhes?id=<%= funcionario.id %>">Consultar</a></td>
+                                                        <td><a class="btn btn-primary" href="/detalhes?id=<%= funcionario.funcionario_id %>">Consultar</a></td>
                                                 <% } %>
                                             </tr>
                                         <% }) %>

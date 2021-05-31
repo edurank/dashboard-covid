@@ -18,7 +18,9 @@
     
     <link rel="shortcut icon" href="./vendor/fontawesome-free/svgs/solid/eye.svg">
     <link rel="shortcut icon" href="./vendor/fontawesome-free/svgs/solid/address-book.svg">
- 
+     <!-- CDN ChartJS -->
+     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.7.1/dist/Chart.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.2.0"></script>
     <!-- Custom styles for this template-->
     <link href="./css/sb-admin-2.css" rel="stylesheet">
 </head>
@@ -55,6 +57,7 @@
                                 <div class="card-body">
                                     <div class="chart-area">
                                         <canvas id="myAreaChart"></canvas>
+                                        <%- include('../partials/chart-area'); %>
                                     </div>
                                 </div>
                             </div>
@@ -67,6 +70,7 @@
                                 <div class="card-body">
                                     <div class="chart-pie">
                                         <canvas id="myBarChart"></canvas>
+                                        <%- include('../partials/chart-bar'); %>
                                     </div>
                                 </div>
                             </div>
@@ -82,11 +86,29 @@
                                 <div class="card-body">
                                     <div class="chart-pie pt-4">
                                         <canvas id="myPieChart"></canvas>
+                                        <%- include('../partials/chart-pie'); %>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
+                        <!-- Departamentos com maior quantidade de casos -->
+                        <div class="col-xl-4 col-lg-5">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header py-3">
+                                    <h4 class="m-0 font-weight-bold text-light">Maior quantidade de casos</h4>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <ul class="list-group list-group-flush">
+                                        <a style="text-decoration: none;color:black" href="/avisosDepartamento?id=<%= departamento_id[0] %>"><li class="list-group-item list-group-item-danger"><%= departamentos[0] %>  -  <%= casosPorDepartamento[0] %></li></a>
+                                        <a style="text-decoration: none;color:black" href="/avisosDepartamento?id=<%= departamento_id[1] %>"></a><li class="list-group-item list-group-item-warning"><%= departamentos[1] %>  -  <%= casosPorDepartamento[1] %></li>
+                                        <a style="text-decoration: none;color:black" href="/avisosDepartamento?id=<%= departamento_id[2] %>"></a><li class="list-group-item list-group-item-warning"><%= departamentos[2] %>  -  <%= casosPorDepartamento[2] %></li>
+                  
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                         <!-- Line Chart-->
                         <div class="col-xl-4 col-lg-5">
                             <div class="card shadow mb-4">
@@ -98,10 +120,33 @@
                                 <div class="card-body">
                                     <div class="chart-line pt-4">
                                         <canvas id="myLineChart"></canvas>
+                                        <%- include('../partials/chart-line'); %>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+
+                        <!-- Card de ùltimos casos-->
+                        <div class="col-xl-4 col-lg-5">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header py-3">
+                                    <h4 class="m-0 font-weight-bold text-light">Últimos casos</h4>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">aaaaaaa</li>
+                                        <li class="list-group-item">bbbbbbbbbb</li>
+                                        <li class="list-group-item">cccccccc</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+
+
                     </div>
                 </div>
                 <!-- /.container-fluid -->
@@ -112,30 +157,6 @@
     </div>
     <!-- End of Page Wrapper -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">a</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">b</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="/">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="./vendor/jquery/jquery.min.js"></script>
@@ -147,14 +168,12 @@
     <!-- Custom scripts for all pages-->
     <script src="./js/sb-admin-2.min.js"></script>
 
-    <!-- CDN ChartJS -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.7.1/dist/Chart.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.2.0"></script>
-    <!-- Page level custom scripts -->
+
+    <!-- Page level custom scripts 
     <script src="./js/graficos/chart-area.js"></script>
-    <script src="./js/graficos/chart-pie.js"></script>
+    <script src="./js/graficos/chart-pie.ejs"></script>
     <script src="./js/graficos/chart-line.js"></script>
-    <script src="./js/graficos/chart-bar.js"></script>
+    <script src="./js/graficos/chart-bar.js"></script>-->
 
 </body>
 

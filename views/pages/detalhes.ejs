@@ -61,18 +61,20 @@
                             <% } else { %>
                                 <table class="table table-responsive" style="color:white">
                                     <tr>
+                                        <td>ID</td>
                                         <th>Nome</th>
                                         <th>Departamento</th>
                                         <th>Avisos</th>
                                         <th>Grupo de Risco</th>
                                     </tr>
                                     <tr>
-                                        <td><%= aviso[0].nome %></td>
-                                        <td><%= aviso[0].departamento %></td>
-                                        <td><%= aviso[0].avisos %></td>
-                                        <% if (aviso[0].grupo_risco == 0) { %>
+                                        <td><%= aviso[0].funcionario_id %></td>
+                                        <td><%= aviso[0].funcionario_nome %></td>
+                                        <td><%= aviso[0].departamento_nome %></td>
+                                        <td><%= aviso[0].funcionario_avisos %></td>
+                                        <% if (aviso[0].funcionario_grupo_risco == 0) { %>
                                             <td>Não</td>
-                                        <% } else { %>
+                                        <% } else { %>  
                                             <td>Sim</td>
                                         <% } %>
                                     </tr>
@@ -81,13 +83,17 @@
                                 <h2 style="color:white">Lista de avisos:</h2>
                                 <table class="table table-bordered table-dark table-striped" style="width:100%;color:white">
                                     <tr>
-                                        <th>Data</th>
-                                        <th>Imagens</th> 
+                                        <th>DATA</th>
+                                        <th>HORÁRIO</th>
+                                        <th>IMAGENS CAPTURADAS</th> 
                                     </tr>
                                     <% aviso.forEach(function (x) { %>
                                         <tr>
-                                            <td><%= x.data %></td>
-                                            <td><%= x.img_path %></td>
+                                            <td><%= moment(x.aviso_data).format('DD/MM/YY') %></td>
+                                            <td><%= moment(x.aviso_data).format('hh:mm:ss') %></td>
+                                            <td><% x.aviso_img_path.split(",").forEach(element => { %>
+                                                <a href="/css/img/<%- element %>.png" style="color:aqua">[link]</a>
+                                            <% }); %></td>
                                         </tr>
                                     <% }) %>    
                                 </table>

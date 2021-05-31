@@ -4,6 +4,7 @@ const con = require('./config/connection')();
 const app = express();
 const passport = require('passport');
 const session = require('express-session');
+var moment = require('moment');
 
 var data = {};
 
@@ -27,13 +28,13 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+
+ 
 // -=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-
 //          PÁGINA ROOT (INDEX)
-
 app.get('/', (req, res, next) => {
-   res.render("pages/login");
-});
-
+    res.render("pages/login");
+ });
 
 app.post('/',
     passport.authenticate('local', { 
@@ -45,27 +46,26 @@ app.post('/',
 function authenticationMiddleware(req, res, next) {
     if (req.isAuthenticated()) return next();
     res.redirect('/login?fail=true');
-  }
+}
 
 app.get('/teste', function(req, res) {
     res.render('pages/testes', {});
 });
 
+
 // -=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-
 //                LOGIN
-
 app.get("/login", function (req, res) {
     res.render("pages/login", { });
 });
 
 app.post("/log", function (req, res) {
-    console.log(req.body.username);
     var query = `SELECT * from usuarios WHERE usuario = '` + req.body.username + `'AND senha = '` + req.body.password + `';`;
     con.query(query, function(error, results, fields) {
         if (error) throw error;
 
         if (results.length > 0) {            
-            res.render("pages/dashboard", { usuario: req.body.username });
+            res.render("pages/dashboard", { usuario: req.body.username ,  teste: "200" });
         } else {
             res.render("pages/login", { msg: "Usuário e/ou senha estão incorretos!" });
         }
@@ -73,23 +73,53 @@ app.post("/log", function (req, res) {
     });
 });
 
+
+
 // -=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-
 //              DASHBOARD
 
 app.get("/dashboard", function (req, res){
-    res.render("pages/dashboard", { teste: "2" });
+    
+    var queryCasosPorDepartamento = `SELECT 
+    departamentos.departamento_nome, COUNT(*) as count, departamentos.departamento_id as depid
+    FROM avisos 
+    INNER JOIN funcionarios 
+    ON funcionarios.funcionario_id = avisos.funcionario_id 
+    INNER JOIN departamentos ON funcionarios.departamento_id = departamentos.departamento_id
+    GROUP BY departamentos.departamento_nome
+    ORDER BY count DESC`;
+
+    con.query(queryCasosPorDepartamento, function(e, resultado) {
+        if(e) throw e;
+
+        var i;
+        var departamentos = [];
+        var dados = [];
+        var dep_id = [];
+        for(i = 0 ; i < resultado.length; i++){
+            departamentos.push(resultado[i].departamento_nome.toString());
+            dados.push(resultado[i].count.toString());
+            dep_id.push(resultado[i].depid.toString());
+        }
+
+
+        res.render("pages/dashboard", {
+            departamentos: departamentos,
+            casosPorDepartamento: dados,
+            departamento_id: dep_id
+        });
+    });
 })
 
 // -=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-
 //             FUNCIONÁRIOS
 
 app.get("/funcionarios", function (req, res) {
-    con.query('SELECT * FROM funcionarios', function (erro, resultado) {
+    con.query('SELECT * FROM funcionarios INNER JOIN departamentos ON funcionarios.departamento_id = departamentos.departamento_id', function (erro, resultado) {
         if (erro) {
             throw erro;
         } else {
-            console.log(resultado);
-            data = { print: resultado };
+            console.log(Object.keys(resultado[0]));
             res.render('pages/funcionarios', {print: resultado, usuario: 'fulano'});
         }
     });
@@ -101,14 +131,21 @@ app.post("/funcionarios", function (req, res) {
 // -=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 app.get("/detalhes", function (req, res) {
-    con.query(`SELECT * FROM avisos INNER JOIN funcionarios ON avisos.id_funcionario = funcionarios.id WHERE id_funcionario = '` + req.query.id +`'`, function (e, resultado) {
+    con.query(`SELECT * FROM avisos INNER JOIN funcionarios ON avisos.funcionario_id = funcionarios.funcionario_id INNER JOIN departamentos ON funcionarios.departamento_id = departamentos.departamento_id WHERE funcionarios.funcionario_id = '` + req.query.id +`'`, function (e, resultado) {
         if (e) { throw e; }
         else{
             console.log(resultado);
-            res.render("pages/detalhes", { aviso: resultado });
+            res.render("pages/detalhes", {
+                aviso: resultado,
+                moment: moment
+            });
         }
     });
 })
+
+app.get("/avisosDepartamento", function (req, res){
+    res.render("pages/avisosDepartamento");
+});
 
 app.post("/detalhes", function (req, res) {
     res.render("pages/detalhes");
@@ -119,11 +156,15 @@ app.get("/monitoramento", function (req, res){
 })
 
 app.get("/avisos", function (req, res) {
-    con.query('SELECT * FROM avisos INNER JOIN funcionarios ON avisos.id_funcionario = funcionarios.id', function (e, resultado) {
+    con.query('SELECT * FROM avisos INNER JOIN funcionarios ON avisos.funcionario_id = funcionarios.funcionario_id INNER JOIN departamentos ON funcionarios.departamento_id = departamentos.departamento_id', function (e, resultado) {
         if (e) { throw e; }
         else{
             console.log(resultado);
-            res.render('pages/avisos', {print: resultado, usuario: 'fulano'});
+            res.render('pages/avisos', {
+                print: resultado,
+                moment: moment,
+                usuario: 'fulano'
+            });
         }
     });
 })

@@ -56,17 +56,20 @@ var mysql = require('mysql');
 	function getAvisosByDepartamento() {
 		//var query = `SELECT departamento, COUNT(*)FROM avisos GROUP BY departamento;`;
 
-		var query = `SELECT 
-			departamento 
-		FROM
-			avisos
-		INNER JOIN funcionarios
-		ON avisos.id_func = funcionarios.id;`;
+		var query = `SELECT departamentos.departamento_nome, COUNT(*) as count FROM avisos INNER JOIN funcionarios ON funcionarios.funcionario_id = avisos.funcionario_id INNER JOIN departamentos ON funcionarios.departamento_id = departamentos.departamento_id GROUP BY departamentos.departamento_nome ORDER BY count DESC`;
 
 		connection.query(query, function(error, results, fields) {
 			if (error) throw error;
 
-			console.log(results);
+			var i;
+			var departamentos = [];
+			var dados = [];
+			for(i = 0 ; i < results.length; i++){
+				departamentos.push(results[i].departamento_nome);
+				dados.push(results[i].count);
+			}
+			console.log(departamentos);
+			console.log(dados);
 		});
 	}
 

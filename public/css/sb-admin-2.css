@@ -11311,3 +11311,7 @@ body.sidebar-toggled footer.sticky-footer {
   width: 200px;
   height: 60px;
 }
+.collapse {
+  overflow: hidden;
+  transition: width 600ms ease-out, height 600ms ease-out;
+}
