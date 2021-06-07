@@ -37,44 +37,51 @@
             <div id="content">
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+
                     <!-- Content Row -->
                     <div class="row">
-                        <div class="col-xl-8 col-lg-7">
-                            <!-- Area Chart -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3 d-flex">
-                                    <div class="flex-grow-1">
-                                        <h4 class="m-0 font-weight-bold text-light">Funcionários Detectados Sem Máscara de Proteção</h4>
-                                    </div>
-
-                                    <div class="btn-group" role="group" aria-label="Basic example">
-                                        <button type="button" class="btn btn-outline-primary">Dia</button>
-                                        <button type="button" class="btn btn-outline-primary">Mes</button>
-                                        <button type="button" class="btn btn-outline-primary">Ano</button>
-                                    </div>
-
-                                </div>
-                                <div class="card-body">
-                                    <div class="chart-area">
-                                        <canvas id="myAreaChart"></canvas>
-                                        <%- include('../partials/chart-area'); %>
-                                    </div>
-                                </div>
+                        <div class="col">
+                            <div class="card bg-danger text-white shadow">
+                                <a href="/avisos" style="text-decoration:none; color:white">
+                                    <div class="card-body">
+                                    <i class="fas fa-exclamation-triangle"></i> Avisos (novos): <%= 1 %>
+                                </div></a>
                             </div>
+                        </div>
+                        <div class="col">
+                            <div class="card bg-success text-white shadow">
+                                <a href="/avisos" style="text-decoration:none; color:white">
+                                    <div class="card-body">
+                                    <i class="fas fa-exclamation-triangle"></i> Avisos (total): <%= total_avisos[0].cnt %>
+                                </div></a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row"> 
 
-                            <!-- Bar Chart -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h4 class="m-0 font-weight-bold text-light">Casos de Covid-19 por Semana</h4>
+                        <!-- Area Chart -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3 d-flex">
+                                <div class="flex-grow-1">
+                                    <h4 class="m-0 font-weight-bold text-light">Funcionários Detectados Sem Máscara de Proteção</h4>
                                 </div>
-                                <div class="card-body">
-                                    <div class="chart-pie">
-                                        <canvas id="myBarChart"></canvas>
-                                        <%- include('../partials/chart-bar'); %>
-                                    </div>
+
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <button type="button" class="btn btn-outline-primary">Dia</button>
+                                    <button type="button" class="btn btn-outline-primary">Mes</button>
+                                    <button type="button" class="btn btn-outline-primary">Ano</button>
+                                </div>
+
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <canvas id="myAreaChart"></canvas>
+                                    <%- include('../partials/chart-area'); %>
                                 </div>
                             </div>
                         </div>
+
                         <!-- Donut Chart -->
                         <div class="col-xl-4 col-lg-5">
                             <div class="card shadow mb-4">
@@ -91,8 +98,46 @@
                                 </div>
                             </div>
                         </div>
+
+                    </div>
+                    <!-- #ROW END -->
+
+                    <div class="row">     
+                        <!-- Bar Chart -->
+                        <div class="col">
+                            <div class="card shadow mb-4" style="width: 60%; height: 90%;">
+                                <div class="card-header py-3">
+                                    <h4 class="m-0 font-weight-bold text-light">Casos de Covid-19 por Semana</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-pie">
+                                        <canvas id="myBarChart"></canvas>
+                                        <%- include('../partials/chart-bar'); %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card de ùltimos casos-->
+                        <div class="col">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header py-3">
+                                    <h4 class="m-0 font-weight-bold text-light">Últimos casos</h4>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">1 dia atrás - 20/05/2021 - TI</li>
+                                        <li class="list-group-item">5 dias atrás - 15/05/2021 - Financeiro</li>
+                                        <li class="list-group-item">10 dias atrás - 10/05/2021 - RH</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+ 
                         <!-- Departamentos com maior quantidade de casos -->
-                        <div class="col-xl-4 col-lg-5">
+                        <div class="col">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div class="card-header py-3">
@@ -102,13 +147,13 @@
                                 <div class="card-body">
                                     <ul class="list-group list-group-flush">
                                         <a style="text-decoration: none;color:black" href="/avisosDepartamento?id=<%= departamento_id[0] %>"><li class="list-group-item list-group-item-danger"><%= departamentos[0] %>  -  <%= casosPorDepartamento[0] %></li></a>
-                                        <a style="text-decoration: none;color:black" href="/avisosDepartamento?id=<%= departamento_id[1] %>"></a><li class="list-group-item list-group-item-warning"><%= departamentos[1] %>  -  <%= casosPorDepartamento[1] %></li>
-                                        <a style="text-decoration: none;color:black" href="/avisosDepartamento?id=<%= departamento_id[2] %>"></a><li class="list-group-item list-group-item-warning"><%= departamentos[2] %>  -  <%= casosPorDepartamento[2] %></li>
-                  
+                                        <a style="text-decoration: none;color:black" href="/avisosDepartamento?id=<%= departamento_id[1] %>"><li class="list-group-item list-group-item-warning"><%= departamentos[1] %>  -  <%= casosPorDepartamento[1] %></li></a>
+                                        <a style="text-decoration: none;color:black" href="/avisosDepartamento?id=<%= departamento_id[2] %>"><li class="list-group-item list-group-item-warning"><%= departamentos[2] %>  -  <%= casosPorDepartamento[2] %></li></a>
                                     </ul>
                                 </div>
                             </div>
                         </div>
+
                         <!-- Line Chart-->
                         <div class="col-xl-4 col-lg-5">
                             <div class="card shadow mb-4">
@@ -126,28 +171,10 @@
                             </div>
                         </div>
 
-
-                        <!-- Card de ùltimos casos-->
-                        <div class="col-xl-4 col-lg-5">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div class="card-header py-3">
-                                    <h4 class="m-0 font-weight-bold text-light">Últimos casos</h4>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">aaaaaaa</li>
-                                        <li class="list-group-item">bbbbbbbbbb</li>
-                                        <li class="list-group-item">cccccccc</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-
-
                     </div>
+                    <!-- #ROW END -->
+
+
                 </div>
                 <!-- /.container-fluid -->
             </div>

@@ -49,7 +49,7 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Lista de avisos</h6>
+                            <h16 class="m-0 font-weight-bold text-primary">Avisos por <%= avisos[0].departamento_nome %></h1>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -59,7 +59,6 @@
                                             <th>DATA</th>
                                             <td>HORÁRIO</td>
                                             <th>NOME</th>
-                                            <th>DEPARTAMENTO</th>
                                             <th>IMAGENS</th>
                                         </tr>
                                     </thead>
@@ -68,21 +67,19 @@
                                             <th>DATA</th>
                                             <th>HORÁRIO</th>
                                             <th>NOME</th>
-                                            <th>DEPARTAMENTO</th>
                                             <th>IMAGENS</th>
                                         </tr>
                                     </tfoot>
 
                                     <tbody>
-                                        <% print.forEach(function (aviso) { %>
+                                        <% avisos.forEach(function (aviso) { %>
                                             <tr>
                                                 <td><%= moment(aviso.aviso_data).format("DD/MM/YY")  %></td>
                                                 <td><%= moment(aviso.aviso_data).format("hh:mm:ss")  %></td>
                                                 <td><a style="text-decoration:none;color:white" href="/detalhes?id=<%= aviso.funcionario_id %>"><%= aviso.funcionario_nome %></a></td>
-                                                <td><%= aviso.departamento_nome %></td>
                                                 <td><% aviso.aviso_img_path.split(",").forEach(element => { %>
                                                                 <a href="/css/img/<%- element %>.png" style="color:aqua">[link]</a>
-                                                            <% }); %>
+                                                    <% }); %>
                                                 </td>
                                             </tr>
                                         <% }) %>

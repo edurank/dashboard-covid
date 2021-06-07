@@ -80,14 +80,14 @@ app.post("/log", function (req, res) {
 
 app.get("/dashboard", function (req, res){
     
-    var queryCasosPorDepartamento = `SELECT 
-    departamentos.departamento_nome, COUNT(*) as count, departamentos.departamento_id as depid
-    FROM avisos 
-    INNER JOIN funcionarios 
-    ON funcionarios.funcionario_id = avisos.funcionario_id 
-    INNER JOIN departamentos ON funcionarios.departamento_id = departamentos.departamento_id
-    GROUP BY departamentos.departamento_nome
-    ORDER BY count DESC`;
+    var queryCasosPorDepartamento = `
+    SELECT departamentos.departamento_nome, COUNT(*) as count, departamentos.departamento_id as depid
+     FROM avisos 
+      INNER JOIN funcionarios 
+       ON funcionarios.funcionario_id = avisos.funcionario_id 
+        INNER JOIN departamentos ON funcionarios.departamento_id = departamentos.departamento_id
+         GROUP BY departamentos.departamento_nome
+          ORDER BY count DESC`;
 
     con.query(queryCasosPorDepartamento, function(e, resultado) {
         if(e) throw e;
@@ -101,12 +101,15 @@ app.get("/dashboard", function (req, res){
             dados.push(resultado[i].count.toString());
             dep_id.push(resultado[i].depid.toString());
         }
-
-
-        res.render("pages/dashboard", {
-            departamentos: departamentos,
-            casosPorDepartamento: dados,
-            departamento_id: dep_id
+        con.query(`SELECT COUNT(*) as cnt FROM avisos`, function(err, result) {
+            if (err) throw err;
+            console.log(result);
+            res.render("pages/dashboard", {
+                departamentos: departamentos,
+                casosPorDepartamento: dados,
+                departamento_id: dep_id,
+                total_avisos: result
+            });
         });
     });
 })
@@ -115,11 +118,14 @@ app.get("/dashboard", function (req, res){
 //             FUNCIONÁRIOS
 
 app.get("/funcionarios", function (req, res) {
-    con.query('SELECT * FROM funcionarios INNER JOIN departamentos ON funcionarios.departamento_id = departamentos.departamento_id', function (erro, resultado) {
+    con.query(`
+    SELECT * FROM funcionarios 
+     INNER JOIN departamentos
+      ON funcionarios.departamento_id = departamentos.departamento_id
+    `, function (erro, resultado) {
         if (erro) {
             throw erro;
         } else {
-            console.log(Object.keys(resultado[0]));
             res.render('pages/funcionarios', {print: resultado, usuario: 'fulano'});
         }
     });
@@ -131,7 +137,15 @@ app.post("/funcionarios", function (req, res) {
 // -=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 app.get("/detalhes", function (req, res) {
-    con.query(`SELECT * FROM avisos INNER JOIN funcionarios ON avisos.funcionario_id = funcionarios.funcionario_id INNER JOIN departamentos ON funcionarios.departamento_id = departamentos.departamento_id WHERE funcionarios.funcionario_id = '` + req.query.id +`'`, function (e, resultado) {
+    var query = `
+    SELECT * FROM avisos 
+     INNER JOIN funcionarios 
+      ON avisos.funcionario_id = funcionarios.funcionario_id 
+       INNER JOIN departamentos 
+        ON funcionarios.departamento_id = departamentos.departamento_id 
+         WHERE funcionarios.funcionario_id = '` + req.query.id +`'`;
+    
+    con.query(query, function (e, resultado) {
         if (e) { throw e; }
         else{
             console.log(resultado);
@@ -144,7 +158,25 @@ app.get("/detalhes", function (req, res) {
 })
 
 app.get("/avisosDepartamento", function (req, res){
-    res.render("pages/avisosDepartamento");
+    var query = `
+    SELECT *
+    FROM avisos
+    INNER JOIN funcionarios
+    ON avisos.funcionario_id = funcionarios.funcionario_id
+    INNER JOIN departamentos
+    ON funcionarios.departamento_id = departamentos.departamento_id
+    WHERE departamentos.departamento_id = '` + req.query.id + `'`;
+
+    con.query(query, function (erro, result){
+        if(erro) throw erro;
+
+        console.log(result);
+        res.render("pages/avisosDepartamento", {
+            avisos: result,
+            moment: moment
+        });
+    });
+    
 });
 
 app.post("/detalhes", function (req, res) {
@@ -156,7 +188,13 @@ app.get("/monitoramento", function (req, res){
 })
 
 app.get("/avisos", function (req, res) {
-    con.query('SELECT * FROM avisos INNER JOIN funcionarios ON avisos.funcionario_id = funcionarios.funcionario_id INNER JOIN departamentos ON funcionarios.departamento_id = departamentos.departamento_id', function (e, resultado) {
+    var query = `SELECT * FROM avisos 
+    INNER JOIN funcionarios 
+     ON avisos.funcionario_id = funcionarios.funcionario_id 
+    INNER JOIN departamentos 
+     ON funcionarios.departamento_id = departamentos.departamento_id`;
+
+    con.query(query, function (e, resultado) {
         if (e) { throw e; }
         else{
             console.log(resultado);
@@ -178,17 +216,32 @@ app.get("/conf", function (req, res) {
 });
 
 app.post("/cad", function (req, res) {
-    console.log("tste");
     var query = `INSERT INTO usuarios (nome, usuario, email, senha) VALUES ('`+req.body.nome +`', '`+req.body.email +`', '`+req.body.usuario +`', '`+   req.body.senha +`')`;
     con.query(query, function (erro, resultado) {
         if (erro) {
             throw erro;
         } else {
-            console.log(resultado)
             res.render('pages/login', { msg: 'Usuário cadastrado com sucesso!', flag: '1'});
         }
     }); 
-})
+});
+
+app.get("/konf", function(req, res) {
+    var getFuncionarios = `
+    SELECT funcionario_nome, funcionarios.funcionario_id, funcionarios.departamento_id, departamentos.departamento_nome
+    FROM funcionarios
+    INNER JOIN departamentos
+    ON funcionarios.departamento_id = departamentos.departamento_id
+    `;
+
+    con.query(getFuncionarios, function (error, listaFuncionarios) {
+        if (error) throw error;
+        res.render("pages/konf", {
+            funcionarios: listaFuncionarios
+        });
+    });
+});
+
 
 app.listen(8080);
 console.log("rodando");
