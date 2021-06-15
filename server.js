@@ -30,7 +30,7 @@ app.use(express.urlencoded({
     extended: false
 }));
 
-require('./auth')(passport);
+require('./config/auth')(passport);
 
 // configurações da sessão
 app.use(session({  
