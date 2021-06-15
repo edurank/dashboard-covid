@@ -25,6 +25,7 @@
 
     <!-- Custom styles for this template -->
     <link href="./css/sb-admin-2.css" rel="stylesheet">
+    <script src="../../public/js/sorttable.js"></script>
 
     <!-- Custom styles for this page -->
     <link href="./vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -59,7 +60,7 @@
                             <% if (typeof aviso[0] === "undefined") { %>
                                 <span>Aviso não existente</span>
                             <% } else { %>
-                                <table class="table table-responsive" style="color:white">
+                                <table class="table table-responsive sortable" style="color:white">
                                     <tr>
                                         <td>ID</td>
                                         <th>Nome</th>
@@ -81,7 +82,7 @@
                                 </table>
                                 </br>
                                 <h2 style="color:white">Lista de avisos:</h2>
-                                <table class="table table-bordered table-dark table-striped" style="width:100%;color:white">
+                                <table class="table table-bordered table-striped sortable" style="width:100%;color:white">
                                     <tr>
                                         <th>DATA</th>
                                         <th>HORÁRIO</th>

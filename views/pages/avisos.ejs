@@ -28,6 +28,9 @@
     <!-- Custom styles for this template -->
     <link href="./css/sb-admin-2.css" rel="stylesheet">
 
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
     <!-- Custom styles for this page -->
     <link href="./vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
@@ -45,19 +48,24 @@
             <!-- Main Content -->
             <div id="content">
                 <!-- Begin Page Content -->
-                <div class="container-fluid">            
+                <div class="container-fluid" style="display:block">            
                     <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Lista de avisos</h6>
+                    
+                        <div class="card-header py-3" style="width:100%">
+                            <h4 class="m-0 font-weight-bold text-light" style="text-align:center">AVISOS</h4>
                         </div>
+                    
+                    <div class="card shadow mb-4">
+
+                 
+                    
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0" style="color:white">
+                                <table class="table table-bordered table-striped rounded" id="dataTable" width="100%" cellspacing="0" style="color:white">
                                     <thead>
                                         <tr>
                                             <th>DATA</th>
-                                            <td>HORÁRIO</td>
+                                            <th>HORÁRIO</th>
                                             <th>NOME</th>
                                             <th>DEPARTAMENTO</th>
                                             <th>IMAGENS</th>
@@ -75,7 +83,11 @@
 
                                     <tbody>
                                         <% print.forEach(function (aviso) { %>
-                                            <tr>
+                                            <% if(aviso.visualizado == 0) { %>
+                                                <tr style="background-color: rgb(116, 0, 0);">
+                                            
+                                            <%  } else { %><tr>
+                                                <% } %>
                                                 <td><%= moment(aviso.aviso_data).format("DD/MM/YY")  %></td>
                                                 <td><%= moment(aviso.aviso_data).format("hh:mm:ss")  %></td>
                                                 <td><a style="text-decoration:none;color:white" href="/detalhes?id=<%= aviso.funcionario_id %>"><%= aviso.funcionario_nome %></a></td>
@@ -104,31 +116,7 @@
     </div>
     <!-- End of Page Wrapper -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="/">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
+ 
     <!-- Bootstrap core JavaScript-->
     <script src="./vendor/jquery/jquery.min.js"></script>
     <script src="./vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

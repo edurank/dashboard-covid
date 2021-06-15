@@ -38,9 +38,9 @@ module.exports = function(passport){
             try {
                 const user = findUser(username);
     
-                // usuário inexistente
+                // usuário inexistent
                 if (!user) { return done(null, false) }
-    
+
                 // comparando as senhas
                 const isValid = bcrypt.compareSync(password, user.password);
                 if (!isValid) return done(null, false)

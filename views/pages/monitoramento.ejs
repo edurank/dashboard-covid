@@ -71,21 +71,40 @@
             border-style: solid;*/
         }
 
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1.3fr 2.2fr 1fr;
+            grid-template-rows: 0.3fr 0.6fr 1.9fr 0.2fr;
+            gap: 10px 10px;
+            grid-template-areas:
+                "header-titulo header-titulo header-titulo"
+                "tabela canvas-camera canvas-camera"
+                "tabela canvas-camera canvas-camera"
+                "camera-setup camera-setup camera-setup";
+        }
+        .header-titulo { grid-area: header-titulo; }
+        .canvas-camera { grid-area: canvas-camera; }
+        .camera-setup { grid-area: camera-setup; }
+        .tabela { grid-area: tabela; }
+
     </style>
     <script type="text/javascript" src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
 
+    
     <script type="text/javascript">
-        const URL = "https://teachablemachine.withgoogle.com/models/ZTFzIfo4P/";
+        const URL = "https://teachablemachine.withgoogle.com/models/PI5WkIKYD/";
 
         // meu antigo"https://teachablemachine.withgoogle.com/models/PI5WkIKYD/"
         //https://teachablemachine.withgoogle.com/models/ZTFzIfo4P/
 
         let model, webcam, labelContainer, maxPredictions, tempo;
 
-        let comMask = "Sem mascara";
-        let semMask = "Com mascara";
+        let comMask = "com-mascara";
+       
+        let semMask = "sem-mascara";
+        let executado = 0;
         
-        async function init() {
+        async function initw() {
             const modelURL = URL + "model.json";
             const metadataURL = URL + "metadata.json";
 
@@ -94,7 +113,10 @@
 
             const flip = true;
             webcam = new tmImage.Webcam(1152, 720, flip);
+            //const webelement = document.getElementById("webcamcam");
+            //webcam = new Webcam(webelement, 'user');
 
+            //webcam.start();
             
             await webcam.setup();
             await webcam.play();
@@ -103,17 +125,16 @@
             document.getElementById("webcam-container").appendChild(webcam.canvas);
 
             labelContainer = document.getElementById("label-container");
-            for (let i = 0; i < maxPredictions; i++) { // and class labels
+            for (let i = 0; i < maxPredictions; i++) {
                 labelContainer.appendChild(document.createElement("div"));
             }
         }
 
         async function loop() {
-            webcam.update(); // update the webcam frame
+            webcam.update(); 
             await predict();
             window.requestAnimationFrame(loop);
         }
-
 
         async function camStop() {
             await webcam.stop();
@@ -122,11 +143,36 @@
             
         }
 
+        async function registrarAviso() {
+            console.log("test");
+  
+            $(document).ready(function() {
+                $("#encontrou").show();        
+            });
+            rejistrar();
+            setTimeout(function () {
+                $(document).ready(function() {
+                    $("#encontrou").hide();        
+                }); 
+                //$( "#result" ).load( "ajax/test.html" );
+            }, 3000);
+        }
+
+        function rejistrar (){
+            executado = 1;
 
 
-        async function predict() {
+        }
+
+        function showDiv(){
+            $(document).ready(function() {
+                $("#encontrou").hide();        
+            });
+        }
+         async function predict() {
             
             const prediction = await model.predict(webcam.canvas);
+            
 
             for (let i = 0; i < maxPredictions; i++) {
                 const classPrediction = prediction[i].className + ": " + prediction[i].probability.toFixed(2);
@@ -143,19 +189,18 @@
                     clearTimeout(tempo);
                     $(document).ready(function() {
                         $("#comsemMask").css("background-color","blue");
-                        $('#comsemMask').text('Com máscara');
+                        $("#comsemMask").text('Com máscara');
                     });
                 } else if(prediction[i].className == "nao-detectado" && prediction[i].probability.toFixed(2) >= 0.80){
                     clearTimeout(tempo);
                     $(document).ready(function() {
                         $("#comsemMask").css("background-color","blue");
-                        $('#comsemMask').text('Nada detectado');
+                        $("#comsemMask").text('Nada detectado');
                     });
                 }
             }
         }
     </script>
-
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -167,8 +212,7 @@
     <link href="./vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet"
-    >
+        rel="stylesheet">
     
     <link rel="shortcut icon" href="./vendor/fontawesome-free/svgs/solid/eye.svg">
     <link rel="shortcut icon" href="./vendor/fontawesome-free/svgs/solid/address-book.svg">
@@ -185,43 +229,54 @@
             <!-- Main Content -->
             <div id="content">
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
+                <div class="grid-container" style="padding:15px;">
                     <!-- Content Row -->
-                    <div class="row">
-                        <div class="card shadow mb-4">
-                            <h4 class="m-0 font-weight-bold text-light">Monitoramento</h4>
-                        </div>
+                    <div class="header-titulo card shadow mb-4"">
+                            <h1 class="m-0 font-weight-bold text-light">Monitoramento</h1>
                     </div> <!-- row -->
-                    <div class="row">
-                        <button onclick="init()">Iniciar</button>
-                        <button onclick="camStop()">Parar</button>
-                    </div>
 
-                    <div class="row card shadow mb-4">
-                        <!--  SCRIPT TEACHABLE MACHINE -->
-                        <div id="webcam-container" style="height:730px;width:1162px;border-color: white;border-style: solid;"></div>
-                    </div> 
-                    </br>
-                    <table style="border: 1px solid white">
-                        <tr>
-                            <th>Status</th>
-                            <th>Horário</th>
-                            <th>Local</th>
-                        </tr>
-                        <tr>
-                            <td id="comsemMask"></td>
-                            <td id="idHora"></td>
-                            <td>Quarto</td>
-                        </tr>
-                    </table>
-                    <script></script>
-                    </div> <!-- /.row -->
+                  
+
+                    <div class="canvas-camera card shadow mb-4"">
+                         <!--  SCRIPT TEACHABLE MACHINE -->
+                            <!-- <div id="webcam-container"><video id="webcamcam" width="1152" height="720"></video></div> -->
+                            <div id="webcam-container" style="height:730px;width:1162px;border-color: white;border-style: solid;"></div>
+                    </div> <!-- row -->
+
+                    <div class="tabela card shadow mb-4">
+                        <table>
+                            <tr>
+                                <td>Status</td>
+                                <td id="comsemMask">Nada detectado</td>
+                            </tr>
+                            <tr>
+                                <td>Horário</td>
+                                <td id="idHora"></td>
+                            </tr>
+                            <tr>
+                                <td>Local</td>
+                                <td>Quarto</td>
+                            </tr>
+                        </table>
+                        
+
+                        <div class="card bg-danger mb-3" id="encontrou" style="display:none;font-size:50px;color:white;"><a href="/addAviso" style="text-decoration: none; color:white">Funcionário sem máscara detectado!</a>
+                        
+                        </div>
+                    </div>
+                    <div class="camera-setup card shadow mb-4"">
+                        <button type="button" class="btn btn-success btn-lg" onclick="initw()" style="margin: 5%;">Iniciar</button>
+                        <button type="button" class="btn btn-danger btn-lg" onclick="camStop()" style="margin: 5%;">Parar</button>
+                </div>
+                    
+                    <script>showDiv()</script>
                 </div> <!-- /.container-fluid -->
             </div> <!-- content -->
         </div> <!-- content-wrapper -->
     </div> <!-- wrapper -->
 
     <script src="./vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
 
 </body>
 </html>

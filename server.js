@@ -5,6 +5,20 @@ const app = express();
 const passport = require('passport');
 const session = require('express-session');
 var moment = require('moment');
+const https = require('https');
+const http = require('http');
+const fs = require('fs');
+
+
+// Rotas
+var konf = require('./config/routes/konf');
+
+// -----------------
+
+const options = {
+    key: fs.readFileSync('key.pem'),
+    cert: fs.readFileSync('cert.pem')
+};
 
 var data = {};
 
@@ -89,6 +103,12 @@ app.get("/dashboard", function (req, res){
          GROUP BY departamentos.departamento_nome
           ORDER BY count DESC`;
 
+    var avisosNaoVis = `
+        SELECT COUNT(*) as naoVis
+        FROM avisos
+        WHERE visualizado = 0;
+    `;
+
     con.query(queryCasosPorDepartamento, function(e, resultado) {
         if(e) throw e;
 
@@ -103,12 +123,17 @@ app.get("/dashboard", function (req, res){
         }
         con.query(`SELECT COUNT(*) as cnt FROM avisos`, function(err, result) {
             if (err) throw err;
-            console.log(result);
-            res.render("pages/dashboard", {
-                departamentos: departamentos,
-                casosPorDepartamento: dados,
-                departamento_id: dep_id,
-                total_avisos: result
+
+            con.query(avisosNaoVis, function(errr, resq) {
+                console.log(resq);
+
+                res.render("pages/dashboard", {
+                    departamentos: departamentos,
+                    casosPorDepartamento: dados,
+                    departamento_id: dep_id,
+                    total_avisos: result,
+                    naoVis: resq
+                });
             });
         });
     });
@@ -144,18 +169,39 @@ app.get("/detalhes", function (req, res) {
        INNER JOIN departamentos 
         ON funcionarios.departamento_id = departamentos.departamento_id 
          WHERE funcionarios.funcionario_id = '` + req.query.id +`'`;
+
+    var queryVis = `
+    UPDATE avisos
+    SET visualizado = '1'
+    WHERE funcionario_id = ` + req.query.id + `;
+    `;
     
     con.query(query, function (e, resultado) {
         if (e) { throw e; }
         else{
-            console.log(resultado);
-            res.render("pages/detalhes", {
-                aviso: resultado,
-                moment: moment
-            });
+            con.query(queryVis, function (e, q) {
+                console.log(resultado);
+                res.render("pages/detalhes", {
+                    aviso: resultado,
+                    moment: moment
+                });
+            });    
         }
     });
-})
+});
+
+app.get("/addAviso", function (req, res) {
+    
+    var query = `
+    INSERT INTO avisos (funcionario_id, aviso_img_path, visualizado)
+    VALUES ('2', '0002,0001', '0');
+    `;
+
+    con.query(query, function(e, resu){
+        console.log(resu);
+        res.render("pages/monitoramento");
+    });
+});
 
 app.get("/avisosDepartamento", function (req, res){
     var query = `
@@ -184,7 +230,11 @@ app.post("/detalhes", function (req, res) {
 })
 
 app.get("/monitoramento", function (req, res){
-    res.render("pages/monitoramento");
+    res.render("pages/monitoramento", {
+
+        
+        con: con
+    });
 })
 
 app.get("/avisos", function (req, res) {
@@ -192,7 +242,8 @@ app.get("/avisos", function (req, res) {
     INNER JOIN funcionarios 
      ON avisos.funcionario_id = funcionarios.funcionario_id 
     INNER JOIN departamentos 
-     ON funcionarios.departamento_id = departamentos.departamento_id`;
+     ON funcionarios.departamento_id = departamentos.departamento_id 
+    ORDER BY avisos.visualizado`;
 
     con.query(query, function (e, resultado) {
         if (e) { throw e; }
@@ -221,27 +272,15 @@ app.post("/cad", function (req, res) {
         if (erro) {
             throw erro;
         } else {
-            res.render('pages/login', { msg: 'Usuário cadastrado com sucesso!', flag: '1'});
+            res.render("pages/login", { msg: 'Usuário cadastrado com sucesso!', flag: '1'});
         }
     }); 
 });
 
-app.get("/konf", function(req, res) {
-    var getFuncionarios = `
-    SELECT funcionario_nome, funcionarios.funcionario_id, funcionarios.departamento_id, departamentos.departamento_nome
-    FROM funcionarios
-    INNER JOIN departamentos
-    ON funcionarios.departamento_id = departamentos.departamento_id
-    `;
 
-    con.query(getFuncionarios, function (error, listaFuncionarios) {
-        if (error) throw error;
-        res.render("pages/konf", {
-            funcionarios: listaFuncionarios
-        });
-    });
-});
+konf(app);
 
+http.createServer(app).listen(8080);
+https.createServer(options, app).listen(1111);
 
-app.listen(8080);
 console.log("rodando");

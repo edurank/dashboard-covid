@@ -38,9 +38,9 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <!-- Content Row -->
-                    <div class="row">
-                        <div class="col">
+                    <!-- Content Row ONE -->
+                    <div class="row mb-4">
+                        <div class="col-sm-6">
                             <div class="card bg-danger text-white shadow">
                                 <a href="/avisos" style="text-decoration:none; color:white">
                                     <div class="card-body">
@@ -48,7 +48,7 @@
                                 </div></a>
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col-sm-6">
                             <div class="card bg-success text-white shadow">
                                 <a href="/avisos" style="text-decoration:none; color:white">
                                     <div class="card-body">
@@ -57,69 +57,13 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="row"> 
+                    <!-- End Row ONE -->
 
-                        <!-- Area Chart -->
-                        <div class="card shadow mb-4">
-                            <div class="card-header py-3 d-flex">
-                                <div class="flex-grow-1">
-                                    <h4 class="m-0 font-weight-bold text-light">Funcionários Detectados Sem Máscara de Proteção</h4>
-                                </div>
+                    <!-- Content Row TWO-->
+                    <div class="row">
 
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn btn-outline-primary">Dia</button>
-                                    <button type="button" class="btn btn-outline-primary">Mes</button>
-                                    <button type="button" class="btn btn-outline-primary">Ano</button>
-                                </div>
-
-                            </div>
-                            <div class="card-body">
-                                <div class="chart-area">
-                                    <canvas id="myAreaChart"></canvas>
-                                    <%- include('../partials/chart-area'); %>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Donut Chart -->
-                        <div class="col-xl-4 col-lg-5">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div class="card-header py-3">
-                                    <h4 class="m-0 font-weight-bold text-light">Casos de Covid-19 por Setor</h4>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-pie pt-4">
-                                        <canvas id="myPieChart"></canvas>
-                                        <%- include('../partials/chart-pie'); %>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- #ROW END -->
-
-                    <div class="row">     
-                        <!-- Bar Chart -->
-                        <div class="col">
-                            <div class="card shadow mb-4" style="width: 60%; height: 90%;">
-                                <div class="card-header py-3">
-                                    <h4 class="m-0 font-weight-bold text-light">Casos de Covid-19 por Semana</h4>
-                                </div>
-                                <div class="card-body">
-                                    <div class="chart-pie">
-                                        <canvas id="myBarChart"></canvas>
-                                        <%- include('../partials/chart-bar'); %>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Card de ùltimos casos-->
-                        <div class="col">
+                        <div class="col-md-6">
+                            <!-- Card de ùltimos casos-->
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div class="card-header py-3">
@@ -135,9 +79,9 @@
                                 </div>
                             </div>
                         </div>
- 
+
                         <!-- Departamentos com maior quantidade de casos -->
-                        <div class="col">
+                        <div class="col-md-6">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div class="card-header py-3">
@@ -153,9 +97,64 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <!-- End Row TWO -->
 
+                    <!-- Content Row THREE -->
+                    <div class="row">
+
+                        <!-- Area Chart -->
+                        <div class="col-md-12">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3 d-flex">
+                                    <div class="flex-grow-1 mr-2">
+                                        <h4 class="m-0 font-weight-bold text-light">Funcionários Detectados Sem Máscara de Proteção</h4>
+                                    </div>
+
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Filtrar Gráficos
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#">Dia</a>
+                                        <a class="dropdown-item" href="#">Mês</a>
+                                        <a class="dropdown-item" href="#">Ano</a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="myAreaChart"></canvas>
+                                        <%- include('../partials/chart-area'); %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                         <!-- Bar Chart -->
+                         <div class="col">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h4 class="m-0 font-weight-bold text-light">Casos de Covid-19 por Semana</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-pie">
+                                        <canvas id="myBarChart"></canvas>
+                                        <%- include('../partials/chart-bar'); %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- End Row THREE -->
+
+                    <!-- Content Row FOUR -->
+                    <div class="row">   
+                        
                         <!-- Line Chart-->
-                        <div class="col-xl-4 col-lg-5">
+                        <div class="col-xl-5 col-lg-7">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div class="card-header py-3">
@@ -171,9 +170,25 @@
                             </div>
                         </div>
 
-                    </div>
-                    <!-- #ROW END -->
+                        <!-- Donut Chart -->
+                        <div class="col-xl-4 col-lg-5">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header py-3">
+                                    <h4 class="m-0 font-weight-bold text-light">Casos de Covid-19 por Setor</h4>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-pie pt-4 pb-2">
+                                        <canvas id="myPieChart"></canvas>
+                                        <%- include('../partials/chart-pie'); %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
+                    </div>
+                    <!-- End Row FOUR -->
 
                 </div>
                 <!-- /.container-fluid -->

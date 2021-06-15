@@ -1511,12 +1511,12 @@ pre code {
 }
 
 .table-bordered {
-  border: 1px solid #3b3b63;
+  border: 1px solid #15152c;
 }
 
 .table-bordered th,
 .table-bordered td {
-  border: 1px solid #3b3b63;
+  border: 1px solid #15152c;
 }
 
 .table-bordered thead th,
@@ -11314,8 +11314,4 @@ body.sidebar-toggled footer.sticky-footer {
 .collapse {
   overflow: hidden;
   transition: width 600ms ease-out, height 600ms ease-out;
-}
-
-th {
-  font-family: 'Roboto', sans-serif;
 }
