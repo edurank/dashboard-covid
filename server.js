@@ -16,8 +16,8 @@ var konf = require('./config/routes/konf');
 // -----------------
 
 const options = {
-    key: fs.readFileSync('key.pem'),
-    cert: fs.readFileSync('cert.pem')
+    key: fs.readFileSync('config/cert/key.pem'),
+    cert: fs.readFileSync('config/cert/cert.pem')
 };
 
 var data = {};
