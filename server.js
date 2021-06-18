@@ -230,9 +230,7 @@ app.post("/detalhes", function (req, res) {
 })
 
 app.get("/monitoramento", function (req, res){
-    res.render("pages/monitoramento", {
-
-        
+    res.render("pages/monitoramento", {      
         con: con
     });
 })
