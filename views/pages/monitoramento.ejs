@@ -6,7 +6,6 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
   <title>EPI Vision</title>
 
   <script>
@@ -29,13 +28,11 @@
     function registrarAviso() {
       //alert("teste");
     }
-
-
   </script>
 
-  <style>
+  <style>  
     #webcam-camera {
-     margin-left: 20px;
+      margin-left: 20px;
     }
 
     #comsemMask {
@@ -58,11 +55,6 @@
      font-size: 20px;
     }
 
-    div {
-      /*border: green;
-      border-style: solid;*/
-    }
-
     #botaoIniciar, #botaoParar {
       padding: 15px;
       width: 10%;
@@ -75,7 +67,15 @@
     .botoze {
       margin-left: 20%;
     }
+
+    .ar-botao-dois {
+      display: inline;
+      border: 1px solid white;
+    }
     
+    .elem-test {
+      border: 1px solid red;
+    }
 
     .grid-container {
       padding: 20px;
@@ -89,235 +89,296 @@
         "ar-titulo ar-titulo"
         "ar-tabela ar-camera"
         "ar-botao ar-botao";
-      }
+    }
 
-.ar-titulo { grid-area: ar-titulo; }
+    .ar-titulo { grid-area: ar-titulo; }
 
-.ar-tabela { grid-area: ar-tabela; }
+    .ar-tabela { grid-area: ar-tabela; }
 
-.ar-botao { grid-area: ar-botao; height: 150px; }
+    .ar-botao { grid-area: ar-botao; height: 150px; }
 
-.ar-camera { grid-area: ar-camera; }
+    .ar-camera { grid-area: ar-camera; }
 
+    /* The container must be positioned relative: */
+    .custom-select {
+      position: relative;
+      font-family: Arial;
+    }
 
+    .custom-select select {
+      display: none; /*hide original SELECT element: */
+    }
+
+    .select-selected {
+      background-color: DodgerBlue;
+    }
+
+    /* Style the arrow inside the select element: */
+    .select-selected:after {
+      position: absolute;
+      content: "";
+      top: 14px;
+      right: 10px;
+      width: 0;
+      height: 0;
+      border: 6px solid transparent;
+      border-color: #fff transparent transparent transparent;
+    }
+
+    /* Point the arrow upwards when the select box is open (active): */
+    .select-selected.select-arrow-active:after {
+      border-color: transparent transparent #fff transparent;
+      top: 7px;
+    }
+
+    /* style the items (options), including the selected item: */
+    .select-items div,.select-selected {
+      color: #ffffff;
+      padding: 8px 16px;
+      border: 1px solid transparent;
+      border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+      cursor: pointer;
+    }
+
+    /* Style items (options): */
+    .select-items {
+      position: absolute;
+      background-color: DodgerBlue;
+      top: 100%;
+      left: 0;
+      right: 0;
+      z-index: 99;
+    }
+
+    /* Hide the items when the select box is closed: */
+    .select-hide {
+      display: none;
+    }
+
+    .select-items div:hover, .same-as-selected {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
   </style>
 
-<script type="text/javascript" src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
+  <script type="text/javascript" src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
 
 
-<script type="text/javascript">
-const URL = "https://teachablemachine.withgoogle.com/models/PI5WkIKYD/";
+  <script type="text/javascript">
+    const URL = "https://teachablemachine.withgoogle.com/models/PI5WkIKYD/";
 
-// meu antigo"https://teachablemachine.withgoogle.com/models/PI5WkIKYD/"
-//https://teachablemachine.withgoogle.com/models/ZTFzIfo4P/
+    // meu antigo"https://teachablemachine.withgoogle.com/models/PI5WkIKYD/"
+    //https://teachablemachine.withgoogle.com/models/ZTFzIfo4P/
 
-let model, webcam, labelContainer, maxPredictions, tempo;
+    let model, webcam, labelContainer, maxPredictions, tempo;
 
-let comMask = "com-mascara";
+    let comMask = "com-mascara";
 
-let semMask = "sem-mascara";
-let executado = 0;
+    let semMask = "sem-mascara";
+    let executado = 0;
 
-async function initw() {
-  botoess();
-const modelURL = URL + "model.json";
-const metadataURL = URL + "metadata.json";
+    async function initw() {
+      botoess();
+    const modelURL = URL + "model.json";
+    const metadataURL = URL + "metadata.json";
 
-model = await tmImage.load(modelURL, metadataURL);
-maxPredictions = model.getTotalClasses();
+    model = await tmImage.load(modelURL, metadataURL);
+    maxPredictions = model.getTotalClasses();
 
-const flip = true;
-webcam = new tmImage.Webcam(1152, 720, flip);
-//const webelement = document.getElementById("webcamcam");
-//webcam = new Webcam(webelement, 'user');
+    const flip = true;
+    webcam = new tmImage.Webcam(1152, 720, flip);
+    //const webelement = document.getElementById("webcamcam");
+    //webcam = new Webcam(webelement, 'user');
 
-//webcam.start();
+    //webcam.start();
 
-await webcam.setup();
-await webcam.play();
-window.requestAnimationFrame(loop);
+    await webcam.setup();
+    await webcam.play();
+    window.requestAnimationFrame(loop);
 
-document.getElementById("webcam-container").appendChild(webcam.canvas);
+    document.getElementById("webcam-container").appendChild(webcam.canvas);
 
-labelContainer = document.getElementById("label-container");
-for (let i = 0; i < maxPredictions; i++) {
-labelContainer.appendChild(document.createElement("div"));
-}
-}
+    labelContainer = document.getElementById("label-container");
+    for (let i = 0; i < maxPredictions; i++) {
+    labelContainer.appendChild(document.createElement("div"));
+    }
+    }
 
-async function botoess() {
-  $(document).ready(function() {
-    $("#botaoIniciar").hide();        
-    $("#botaoParar").show();        
-  });
-}
-async function botoesa() {
-  $(document).ready(function() {
-    $("#botaoIniciar").show();        
-    $("#botaoParar").hide();        
-  });
-}
+    async function botoess() {
+      $(document).ready(function() {
+        $("#botaoIniciar").hide();        
+        $("#botaoParar").show();        
+      });
+    }
+    async function botoesa() {
+      $(document).ready(function() {
+        $("#botaoIniciar").show();        
+        $("#botaoParar").hide();        
+      });
+    }
 
-async function loop() {
-  webcam.update(); 
-  await predict();
-  window.requestAnimationFrame(loop);
-}
+    async function loop() {
+      webcam.update(); 
+      await predict();
+      window.requestAnimationFrame(loop);
+    }
 
-async function camStop() {
-  botoesa();
-  await webcam.stop();
-  var list =  document.getElementById("webcam-container");
-  list.removeChild(list.childNodes[0]);
-}
+    async function camStop() {
+      botoesa();
+      await webcam.stop();
+      var list =  document.getElementById("webcam-container");
+      list.removeChild(list.childNodes[0]);
+    }
 
-async function registrarAviso() {
-  console.log("test");
+    async function registrarAviso() {
+      console.log("test");
 
-  $(document).ready(function() {
-    $("#encontrou").show();        
-  });
+      $(document).ready(function() {
+        $("#encontrou").show();        
+      });
 
-  rejistrar();
+      registrar();
 
-  setTimeout(function () {
-    $(document).ready(function() {
-      $("#encontrou").hide();        
-    }); 
+      setTimeout(function () {
+        $(document).ready(function() {
+          $("#encontrou").hide();        
+        }); 
+      }, 3000);
+    }
 
-    //$( "#result" ).load( "ajax/test.html" );
-    }, 3000);
-  }
+    
+    function registrar (){
+      executado = 1;
+    }
 
-  function rejistrar (){
-  executado = 1;
-}
+    function showDiv(){
+      $(document).ready(function() {
+        $("#encontrou").hide();        
+        $("#comsemMask").hide();
+      });
+    }
 
-function showDiv(){
-  $(document).ready(function() {
-   $("#encontrou").hide();        
-   $("#comsemMask").hide();
-  });
-}
-async function predict() {
+    async function predict() {
+      const prediction = await model.predict(webcam.canvas);
 
-const prediction = await model.predict(webcam.canvas);
+      for (let i = 0; i < maxPredictions; i++) {
+        const classPrediction = prediction[i].className + ": " + prediction[i].probability.toFixed(2);
 
-
-for (let i = 0; i < maxPredictions; i++) {
-const classPrediction = prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-
-if(prediction[i].className == semMask && prediction[i].probability.toFixed(2) >= 0.80){
-tempo = setTimeout(function(){
-registrarAviso();
-}, 3000);
-$(document).ready(function() {
-$("#comsemMask").css("background-color","#a60013");
-$('#comsemMask').text('Sem máscara');
-});
-} else if(prediction[i].className == comMask && prediction[i].probability.toFixed(2) >= 0.80){
-clearTimeout(tempo);
-$(document).ready(function() {
-$("#comsemMask").css("background-color","blue");
-$("#comsemMask").text('Com máscara');
-});
-} else if(prediction[i].className == "nao-detectado" && prediction[i].probability.toFixed(2) >= 0.80){
-clearTimeout(tempo);
-  $(document).ready(function() {
-    $("#comsemMask").css("background-color","blue");
-    $("#comsemMask").text('Nada detectado');
-  });
-}
-}
-}
-</script>
-
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
+        if(prediction[i].className == semMask && prediction[i].probability.toFixed(2) >= 0.80) {
+          tempo = setTimeout(function() { registrarAviso(); }, 3000);
+          $(document).ready(function() {
+            $("#comsemMask").css("background-color","#a60013");
+            $('#comsemMask').text('Sem máscara');
+          });
+        } else if(prediction[i].className == comMask && prediction[i].probability.toFixed(2) >= 0.80) {
+          clearTimeout(tempo);
+          $(document).ready(function() {
+            $("#comsemMask").css("background-color","blue");
+            $("#comsemMask").text('Com máscara');
+          });
+        } else if(prediction[i].className == "nao-detectado" && prediction[i].probability.toFixed(2) >= 0.80) {
+          clearTimeout(tempo);
+          $(document).ready(function() {
+            $("#comsemMask").css("background-color","blue");
+            $("#comsemMask").text('Nada detectado');
+          });
+        }
+      }
+    }
+  </script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
 
 
-<!-- Custom fonts for this template-->
-<link href="./vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-<link
-href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-rel="stylesheet">
-
-<link rel="shortcut icon" href="./vendor/fontawesome-free/svgs/solid/eye.svg">
-<link rel="shortcut icon" href="./vendor/fontawesome-free/svgs/solid/address-book.svg">
-
-<!-- Custom styles for this template-->
-<link href="./css/sb-admin-2.css" rel="stylesheet">
-
+  <!-- Custom fonts for this template-->
+  <link href="./vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link
+  href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+  rel="stylesheet">
+  <link rel="shortcut icon" href="./vendor/fontawesome-free/svgs/solid/eye.svg">
+  <link rel="shortcut icon" href="./vendor/fontawesome-free/svgs/solid/address-book.svg">
+  <!-- Custom styles for this template-->
+  <link href="./css/sb-admin-2.css" rel="stylesheet">
 </head>
 <body onload="startTime()">
-<div id="wrapper">
-  <!-- Sidebar -->
-  <%- include('../partials/sidebar'); %>
-  <div id="content-wrapper">
-    <!-- Main Content -->
-    <div id="content">
-      <!-- Begin Page Content -->
-      <div class="grid-container">
-        
-        <!-- Content Row -->
-        <div class="ar-titulo card shadow mb-4">
-          <h1 class="m-0 font-weight-bold text-light" style="text-align:center; padding">Monitoramento</h1>
-                    
-          <div class="card bg-danger mb-3" id="encontrou" style="display:none;font-size:30px;color:white;">
-            <a href="/addAviso" style="text-decoration: none; color:white">Funcionário sem máscara detectado!</a>
+  <div id="wrapper">
+    <!-- Sidebar -->
+    <%- include('../partials/sidebar'); %>
+    <div id="content-wrapper">
+      <!-- Main Content -->
+      <div id="content">
+        <!-- Begin Page Content -->
+        <div class="grid-container">
+          
+          <!-- Content Row -->
+          <div class="ar-titulo card shadow mb-4">
+            <h1 class="m-0 font-weight-bold text-light" style="text-align:center;">Monitoramento</h1>
+                      
+            <div class="card bg-danger mb-3" id="encontrou" style="display:none;font-size:30px;color:white;">
+              <a href="/addAviso" style="text-decoration: none; color:white">Funcionário sem máscara detectado!</a>
+            </div>
+          </div> <!-- row -->
+
+          <div class="ar-tabela card shadow mb-4">
+            <table>
+              <tr>
+                <td>Status</td>
+                <td id="comsemMask">Nada detectado</td>
+              </tr>
+              <tr>
+                <td>Horário</td>
+                <td id="idHora"></td>
+              </tr>
+              <tr>
+                <td>Local</td>
+                <td>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                    <option selected>Local...</option>
+                  <% departamento.forEach(function (dep) { %>
+                    <option value="1"><%= dep.departamento_nome  %></option>
+                  <% }); %>
+                </select>
+                <td>
+              </tr>
+            </table>
+
           </div>
-        </div> <!-- row -->
 
-        <div class="ar-tabela card shadow mb-4">
-          <table>
-            <tr>
-              <td>Status</td>
-              <td id="comsemMask">Nada detectado</td>
-            </tr>
-            <tr>
-              <td>Horário</td>
-              <td id="idHora"></td>
-            </tr>
-            <tr>
-              <td>Local</td>
-              <td>
-              <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-                  <option selected>Local...</option>
-                <% departamento.forEach(function (dep) { %>
-                  <option value="1"><%= dep.departamento_nome  %></option>
-                <% }); %>
-              </select>
-              <td>
-            </tr>
-          </table>
+          <div class="ar-camera card shadow mb-4"">
+            <!--  SCRIPT TEACHABLE MACHINE -->
+            <!-- <div id="webcam-container"><video id="webcamcam" width="1152" height="720"></video></div> -->
+            <div id="webcam-container" style="height:730px;width:1162px;border-color: white;border-style: solid;"></div>
+          </div> <!-- row -->
 
-        </div>
-
-        <div class="ar-camera card shadow mb-4"">
-          <!--  SCRIPT TEACHABLE MACHINE -->
-          <!-- <div id="webcam-container"><video id="webcamcam" width="1152" height="720"></video></div> -->
-          <div id="webcam-container" style="height:730px;width:1162px;border-color: white;border-style: solid;"></div>
-        </div> <!-- row -->
-
-       
-
-        <div class="ar-botao card shadow mb-4">
-          <div class="botoze">
-            <button type="button" class="btn btn-success btn-lg" id="botaoIniciar" onclick="initw()" style="margin:0;">Iniciar</button>
-            <button type="button" class="btn btn-danger btn-lg" id="botaoParar" style="display:none" onclick="camStop()" >Parar</button>
+          <div class="ar-botao card shadow mb-4">
+            <div class="container">
+              <div class="row">
+                <div class="elem-test col-sm-1">
+                  <i class="fas fa-camera fa-2x"></i>
+                </div>
+                <div class="elem-test col-sm-3">
+                  <select class="custom-select" aria-label=".form-select-lg example">
+                    <option selected>Selecione o dispositivo...</option>
+                      <% departamento.forEach(function (dep) { %>
+                        <option value="1">Webcam</option>
+                      <% }); %>
+                  </select>
+                </div>
+                <div class="elem-test col-sm-8">
+                  <div class="botoze">
+                    <button type="button" class="btn btn-success btn-lg" id="botaoIniciar" onclick="initw()" style="margin:0;">Iniciar</button>
+                    <button type="button" class="btn btn-danger btn-lg" id="botaoParar" style="display:none" onclick="camStop()" >Parar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <script>showDiv()</script>
-      </div> <!-- /.container-fluid -->
-    </div> <!-- content -->
-  </div> <!-- content-wrapper -->
-</div> <!-- wrapper -->
-
-<script src="./vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-
+          <script>showDiv()</script>
+        </div> <!-- /.container-fluid -->
+      </div> <!-- content -->
+    </div> <!-- content-wrapper -->
+  </div> <!-- wrapper -->
+  <script src="./vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
