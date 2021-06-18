@@ -1,4 +1,4 @@
-var controller = require('../controllers/konf')();
+var controller = require('../../controllers/konf')();
 
 module.exports = function (app) { 
 

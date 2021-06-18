@@ -11,7 +11,7 @@ const fs = require('fs');
 
 
 // Rotas
-var konf = require('./config/routes/konf');
+var konf = require('./config/routes/api/konf');
 
 // -----------------
 
@@ -230,8 +230,16 @@ app.post("/detalhes", function (req, res) {
 })
 
 app.get("/monitoramento", function (req, res){
-    res.render("pages/monitoramento", {      
-        con: con
+    var query = `
+    SELECT *
+    FROM departamentos
+    `;
+    con.query(query, function(error, result) {
+        if (error) throw error;
+        res.render("pages/monitoramento", {      
+            con: con,
+            departamento: result
+        });
     });
 })
 

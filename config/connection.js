@@ -11,10 +11,9 @@ module.exports = function () {
 
     connection.connect(function(err) {
         if(err) {
-//            console.error("Erro ao conectar: " + err.stack);
-            return;
+            console.error("Erro ao conectar: " + err.stack);
+            return false;
         }
-        console.log('Conectado ao banco.');
     });
 
 
