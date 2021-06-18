@@ -13,7 +13,7 @@ module.exports = function() {
   
         con.query(getFuncionarios, function (error, listaFuncionarios) {
             if (error) throw error;
-            res.render("pages/konf", {
+            res.render("pages/paginaTeste", {
                 funcionarios: listaFuncionarios });
         });
     };

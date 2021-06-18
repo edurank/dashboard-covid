@@ -72,9 +72,9 @@
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">1 dia atrás - 20/05/2021 - TI</li>
-                                        <li class="list-group-item">5 dias atrás - 15/05/2021 - Financeiro</li>
-                                        <li class="list-group-item">10 dias atrás - 10/05/2021 - RH</li>
+                                        <a style="text-decoration: none;color:black" href="/avisosDepartamento?id=<%= ultimos_avisos[0].departamento_id %>"><li class="list-group-item list-group-item-danger"><%= ultimos_avisos[0].departamento_nome %>  -  <%= moment(ultimos_avisos[0].aviso_data).fromNow() %></li></a>
+                                        <a style="text-decoration: none;color:black" href="/avisosDepartamento?id=<%= ultimos_avisos[1].departamento_id %>"><li class="list-group-item list-group-item-warning"><%= ultimos_avisos[1].departamento_nome %>  -  <%= moment(ultimos_avisos[1].aviso_data).fromNow() %></li></a>
+                                        <a style="text-decoration: none;color:black" href="/avisosDepartamento?id=<%= ultimos_avisos[2].departamento_id %>"><li class="list-group-item list-group-item-warning"><%= ultimos_avisos[2].departamento_nome %>  -  <%= moment(ultimos_avisos[2].aviso_data).fromNow() %></li></a
                                     </ul>
                                 </div>
                             </div>

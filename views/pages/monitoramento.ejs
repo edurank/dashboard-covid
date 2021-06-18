@@ -37,7 +37,7 @@
 
     #comsemMask {
       color:white;
-      font-size: 50px;
+      font-size: 30px;
     }
 
     #idHora {
@@ -80,7 +80,7 @@
       grid-auto-columns: 1fr; 
       grid-template-columns: 0.6fr 1.7fr; 
       grid-template-rows: 0.3fr 1.8fr 1.5fr; 
-      gap: 10px 10px;
+      gap: 10px 30px;
       grid-auto-flow: row;
       grid-template-areas:
         "ar-titulo ar-titulo"
@@ -97,7 +97,7 @@
     .ar-camera { grid-area: ar-camera; }
     .tabella {
       padding: 20px;
-      margin-top: 30px;
+      margin-top: 20px;
     }
 
     .custom-select {
@@ -252,8 +252,7 @@
 
     function showDiv(){
       $(document).ready(function() {
-        $("#encontrou").hide();        
-        $("#comsemMask").hide();
+        $("#encontrou").hide(); 
       });
     }
 
@@ -312,7 +311,7 @@
           
           <!-- Content Row -->
           <div class="ar-titulo card shadow mb-4">
-            <h1 class="m-0 font-weight-bold text-light" style="text-align:center;">Monitoramento</h1>
+            <h1 class="m-0 font-weight-bold text-light" style="text-align:center;padding-top:30px;">Monitoramento</h1>
                       
             <div class="card bg-danger mb-3" id="encontrou" style="display:none;font-size:30px;color:white;">
               <a href="/addAviso" style="text-decoration: none; color:white">Funcionário sem máscara detectado!</a>
@@ -351,29 +350,27 @@
           </div> <!-- row -->
 
           <div class="ar-botao card shadow mb-4">
-            <div class="container">
+            <div class="container-fluid">
               <div class="row">
                 <div class="elem-test col-sm-1">
                   <i class="fas fa-camera fa-2x"></i>
                 </div>
-                <div class="elem-test col-sm-3">
+                <div class="elem-test col-sm-2" style="margin-left:-50px;">
                   <select class="custom-select" aria-label=".form-select-lg example">
                     <option selected>Selecione o dispositivo...</option>
-                      
-                        <option value="1">Webcam</option>
-                        <option value="1">Webcam</option>
+                    <option value="1">Webcam 1</option>
+                    <option value="2">Webcam 2</option>
                   </select>
                 </div>
-                <div class="elem-test col-sm-8">
+                <div class="elem-test col-sm-4">
                   <div class="botoze">
                     <button type="button" class="btn btn-success btn-lg" id="botaoIniciar" onclick="initw()" style="margin:0;width:300px;">Iniciar</button>
-                    <button type="button" class="btn btn-danger btn-lg" id="botaoParar" style="display:none;width:300px;" onclick="camStop()" >Parar</button>
+                    <button type="button" class="btn btn-danger btn-lg" id="botaoParar" style="display:none;width:300px;" onclick="camStop()">Parar</button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
           <script>showDiv()</script>
         </div> <!-- /.container-fluid -->
       </div> <!-- content -->

@@ -9,6 +9,7 @@ const https = require('https');
 const http = require('http');
 const fs = require('fs');
 
+moment.locale('pt-br');
 
 // Rotas
 var konf = require('./config/routes/api/konf');
@@ -109,6 +110,17 @@ app.get("/dashboard", function (req, res){
         WHERE visualizado = 0;
     `;
 
+    var ultimosAvisos = `
+    SELECT *
+    FROM avisos
+    INNER JOIN funcionarios
+    ON funcionarios.funcionario_id = avisos.funcionario_id
+    INNER JOIN departamentos 
+    ON funcionarios.departamento_id = departamentos.departamento_id
+    ORDER BY avisos.aviso_data
+    DESC LIMIT 3;
+    `;
+
     con.query(queryCasosPorDepartamento, function(e, resultado) {
         if(e) throw e;
 
@@ -125,14 +137,20 @@ app.get("/dashboard", function (req, res){
             if (err) throw err;
 
             con.query(avisosNaoVis, function(errr, resq) {
-                console.log(resq);
-
-                res.render("pages/dashboard", {
-                    departamentos: departamentos,
-                    casosPorDepartamento: dados,
-                    departamento_id: dep_id,
-                    total_avisos: result,
-                    naoVis: resq
+                console.log("Resq: " + resq);
+                
+                con.query(ultimosAvisos, function(errro, resx) {
+                    if (errro) throw errro;
+                    console.log(resx);
+                    res.render("pages/dashboard", {
+                        departamentos: departamentos,
+                        casosPorDepartamento: dados,
+                        departamento_id: dep_id,
+                        total_avisos: result,
+                        moment: moment,
+                        ultimos_avisos: resx,
+                        naoVis: resq
+                    });
                 });
             });
         });
@@ -196,10 +214,20 @@ app.get("/addAviso", function (req, res) {
     INSERT INTO avisos (funcionario_id, aviso_img_path, visualizado)
     VALUES ('2', '0002,0001', '0');
     `;
+    var query2 = `
+    SELECT *
+    FROM departamentos
+    `;
 
     con.query(query, function(e, resu){
-        console.log(resu);
-        res.render("pages/monitoramento");
+        if (e) throw e;
+        con.query(query2, function(error, result) {
+            if (error) throw error;
+            res.render("pages/monitoramento", {      
+                con: con,
+                departamento: result
+            });
+        });
     });
 });
 
