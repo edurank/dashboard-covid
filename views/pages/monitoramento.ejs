@@ -95,6 +95,7 @@
     .ar-botao { grid-area: ar-botao; height: 150px; }
 
     .ar-camera { grid-area: ar-camera; }
+
     .tabella {
       padding: 20px;
       margin-top: 20px;
@@ -110,7 +111,7 @@
     }
 
     .select-selected {
-      background-color: DodgerBlue;
+      background-color: rgb(255, 0, 0);
     }
 
  
@@ -226,6 +227,7 @@
     }
 
     async function camStop() {
+      $('#comsemMask').text('Camera desativada.');
       botoesa();
       await webcam.stop();
       var list =  document.getElementById("webcam-container");
@@ -233,8 +235,6 @@
     }
 
     async function registrarAviso() {
-      console.log("test");
-
       $(document).ready(function() {
         $("#encontrou").show();        
       });
@@ -253,6 +253,7 @@
     }
 
     function showDiv(){
+      $('#comsemMask').text('Camera desativada.');
       $(document).ready(function() {
         $("#encontrou").hide(); 
       });
@@ -267,7 +268,7 @@
         if(prediction[i].className == semMask && prediction[i].probability.toFixed(2) >= 0.80) {
           if(!esperando) {
             esperando = true;
-            tempo = setTimeout(function() { registrarAviso(); esperando = false; }, 3000);
+            tempo = setTimeout(function() { registrarAviso(); esperando = false; }, 5000);
           }
 
           $(document).ready(function() {
@@ -327,7 +328,7 @@
           </div> <!-- row -->
 
           <div class="ar-tabela card shadow mb-4">
-            <table class="tabella">
+            <table class="tabella table table-bordered table-striped sortable">
               <tr>
                 <td>Status</td>
                 <td id="comsemMask">Nada detectado</td>
@@ -339,32 +340,80 @@
               <tr>
                 <td>Local</td>
                 <td>
-                <select class="custom-select" aria-label=".form-select-lg example">
+                <select class="custom-select" id="selDep" aria-label=".form-select-lg example">
                     <option selected>Local...</option>
                   <% departamento.forEach(function (dep) { %>
-                    <option value="1"><%= dep.departamento_nome  %></option>
+                    <option value="<%= dep.departamento_id %>"><%= dep.departamento_nome  %></option>
                   <% }); %>
                 </select>
                 <td>
               </tr>
             </table>
 
+            <script>
+              var idDepartamento;
+              var keuri = `
+              SELECT *
+              FROM avisos;
+              `;
+
+        
+              $("#selDep").change(function() {
+                idDepartamento = $('#selDep').val();
+
+                $("#tab" + idDepartamento).show();
+                
+                //$("#detalhessobre").text(`Detalhes sobre <%= departamento[2].departamento_nome %>`);
+                /*if ($('#acc_type').val() == "current") {rate = "0.6%";}
+                else if ($('#acc_type').val() == "savings") {rate = "0.8%";}
+                $(#selDep).val();
+                $('#interest').val(rate);*/
+                console.log(idDepartamento);
+              });
+            </script>
+
+            <span id="detalhessobre">Detalhes sobre</span>
+
+            <table class="tabella table table-bordered table-striped sortable">
+              
+              <% tabeInfo.forEach(function(tbi) { %>
+                <tr id="tab<%= tbi.departamento_id %>" style="display: none">
+                  <td>Quantidade Funcionarios total</td>
+                  <td>quantidade avisos total</td>
+                  <td>último aviso</td>
+                </tr>
+              <% }); %>
+            
+            </table>
           </div>
 
           <div class="ar-camera card shadow mb-4"">
             <!--  SCRIPT TEACHABLE MACHINE -->
-            <!-- <div id="webcam-container"><video id="webcamcam" width="1152" height="720"></video></div> -->
-            <div id="webcam-container" style="height:730px;width:1162px;border-color: white;border-style: solid;"></div>
+           <div id="webcam-container"><video id="video" width="1152" height="720" playsinline autoplay></video></div>
+            <!-- <div id="webcam-container" style="height:730px;width:1162px;border-color: white;border-style: solid;"></div> -->
           </div> <!-- row -->
-
+          <script>console.log(navigator.mediaDevices.enumerateDevices())</script>
           <div class="ar-botao card shadow mb-4">
             <div class="container-fluid">
+              
               <div class="row">
+
                 <div class="elem-test col-sm-1">
                   <i class="fas fa-camera fa-2x"></i>
                 </div>
+                <div class="select">
+                    <label for="videoSource">Câmera: </label><select class="custom-select" id="videoSource"></select>
+                </div>
+                <div class="elem-test col-sm-4">
+                  <div class="botoze">
+                    <button type="button" class="btn btn-success btn-lg" id="botaoIniciar" onclick="startew()" style="margin:0;width:300px;">Iniciar</button>
+                  </div>
+                </div>
+                <!-- <div class="elem-test col-sm-1">
+                  <i class="fas fa-camera fa-2x"></i>
+                </div>
                 <div class="elem-test col-sm-2" style="margin-left:-50px;">
-                  <select class="custom-select" aria-label=".form-select-lg example">
+                  <select class="custom-select" id="select-video" aria-label=".form-select-lg example">
                     <option selected>Selecione o dispositivo...</option>
                     <option value="1">Webcam 1</option>
                     <option value="2">Webcam 2</option>
@@ -375,11 +424,88 @@
                     <button type="button" class="btn btn-success btn-lg" id="botaoIniciar" onclick="initw()" style="margin:0;width:300px;">Iniciar</button>
                     <button type="button" class="btn btn-danger btn-lg" id="botaoParar" style="display:none;width:300px;" onclick="camStop()">Parar</button>
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
           <script>showDiv()</script>
+
+
+          <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+
+          <script>
+              'use strict';
+              
+              const videoElement = document.querySelector('video');
+              const videoSelect =  document.querySelector('select#videoSource');
+              const selectors = [videoSelect];
+              
+              
+              function gotDevices(deviceInfos) {
+                // Handles being called several times to update labels. Preserve values.
+                const values = selectors.map(select => select.value);
+                selectors.forEach(select => {
+                  while (select.firstChild) {
+                    select.removeChild(select.firstChild);
+                  }
+                });
+          
+                console.log(deviceInfos);
+          
+                /* deviceInfos 
+                  - array com todos os devices da máquina
+                */
+                // itera por todos os elementos do array
+                for (let i = 0; i !== deviceInfos.length; ++i) {
+                  const deviceInfo = deviceInfos[i];
+                  const option = document.createElement('option');
+                  option.value = deviceInfo.deviceId;
+          
+                  if (deviceInfo.kind === 'videoinput') {
+                    option.text = deviceInfo.label || `camera ${videoSelect.length + 1}`;
+                    videoSelect.appendChild(option);
+                  }
+                }
+                
+                selectors.forEach((select, selectorIndex) => {
+                  if (Array.prototype.slice.call(select.childNodes).some(n => n.value === values[selectorIndex])) {
+                    select.value = values[selectorIndex];
+                  }
+                });
+              }
+              
+              navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
+              
+              function gotStream(stream) {
+                window.stream = stream; // make stream available to console
+                videoElement.srcObject = stream;
+                // Refresh button list in case labels have become available
+                return navigator.mediaDevices.enumerateDevices();
+              }
+              
+              function handleError(error) {
+                console.log('navigator.MediaDevices.getUserMedia error: ', error.message, error.name);
+              }
+              
+              function startew() {
+                if (window.stream) {
+                  window.stream.getTracks().forEach(track => {
+                    track.stop();
+                  });
+                }
+                const videoSource = videoSelect.value;
+                const constraints = {
+                  video: {deviceId: videoSource ? {exact: videoSource} : undefined}
+                };
+                navigator.mediaDevices.getUserMedia(constraints).then(gotStream).then(gotDevices).catch(handleError);
+              }
+              
+              videoSelect.onchange = start;
+              
+              </script>
+
+
+
         </div> <!-- /.container-fluid -->
       </div> <!-- content -->
     </div> <!-- content-wrapper -->
