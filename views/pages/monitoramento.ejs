@@ -73,13 +73,12 @@
       border: 1px solid white;
     }
     
-
     .grid-container {
       padding: 20px;
       display: grid;
       grid-auto-columns: 1fr; 
       grid-template-columns: 0.6fr 1.7fr; 
-      grid-template-rows: 0.3fr 1.8fr 1.5fr; 
+      grid-template-rows: 0.22fr 1.8fr 1.5fr; 
       gap: 10px 30px;
       grid-auto-flow: row;
       grid-template-areas:
@@ -87,6 +86,7 @@
         "ar-tabela ar-camera"
         "ar-botao ar-botao";
     }
+    
 
     .ar-titulo { grid-area: ar-titulo; }
 
@@ -161,45 +161,35 @@
 
   <script type="text/javascript" src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
 
-
   <script type="text/javascript">
-
     const URL = "https://teachablemachine.withgoogle.com/models/ZTFzIfo4P/";
 
     // meu antigo"https://teachablemachine.withgoogle.com/models/PI5WkIKYD/"
-    //https://teachablemachine.withgoogle.com/models/ZTFzIfo4P/
-
+    // Model novo: https://teachablemachine.withgoogle.com/models/ZTFzIfo4P/
     let model, webcam, labelContainer, maxPredictions, tempo;
-
     let comMask = "Com mascara";
     let semMask = "Sem mascara";
-
-
     let esperando = true;
-
     let executado = 0;
 
     async function initw() {
       botoess();
       const modelURL = URL + "model.json";
       const metadataURL = URL + "metadata.json";
+      const flip = true;
 
       model = await tmImage.load(modelURL, metadataURL);
       maxPredictions = model.getTotalClasses();
-
-      const flip = true;
-      webcam = new tmImage.Webcam(1152, 720, flip);
+      //webcam = new tmImage.Webcam(1152, 720, flip);
       //const webelement = document.getElementById("webcamcam");
       //webcam = new Webcam(webelement, 'user');
 
       //webcam.start();
-
-      await webcam.setup();
-      await webcam.play();
+      //await webcam.setup();
+      //await webcam.play();
       window.requestAnimationFrame(loop);
 
-      document.getElementById("webcam-container").appendChild(webcam.canvas);
-
+      //document.getElementById("webcam-container").appendChild(webcam.canvas);
       labelContainer = document.getElementById("label-container");
 
       for (let i = 0; i < maxPredictions; i++) {
@@ -207,23 +197,47 @@
       }
     }
 
-    async function botoess() {
-      $(document).ready(function() {
-        $("#botaoIniciar").hide();        
-        $("#botaoParar").show();        
-      });
-    }
-    async function botoesa() {
-      $(document).ready(function() {
-        $("#botaoIniciar").show();        
-        $("#botaoParar").hide();        
-      });
-    }
-
     async function loop() {
-      webcam.update(); 
+      //webcam.update(); 
       await predict();
       window.requestAnimationFrame(loop);
+    }
+    async function predict() {
+      //const prediction = await model.predict(webcam.canvas);
+
+      let video = document.getElementById("webcam-container");
+      const prediction = await model.predict({ image: video  });
+ 
+      for (let i = 0; i < maxPredictions; i++) {
+        const classPrediction = prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+        const prob_label = prediction[i].className;
+        const probabilidade = prediction[i].probability.toFixed(2);
+
+        if(prob_label == semMask && probabilidade >= 0.80) {
+          if(!esperando) {
+            esperando = true;
+            tempo = setTimeout(function() { registrarAviso(); esperando = false; }, 5000);
+          }
+          $(document).ready(function() {
+            $("#comsemMask").css("background-color","#a60013");
+            $('#comsemMask').text('Sem máscara');
+          });
+        } else if(prob_label == comMask && probabilidade >= 0.80) {
+          clearTimeout(tempo);
+          esperando = false;
+          $(document).ready(function() {
+            $("#comsemMask").css("background-color","blue");
+            $("#comsemMask").text('Com máscara');
+          });
+        } else if(prob_label == "nao-detectado" && probabilidade >= 0.80) {
+          clearTimeout(tempo);
+          esperando = false;
+          $(document).ready(function() {
+            $("#comsemMask").css("background-color","blue");
+            $("#comsemMask").text('Nada detectado');
+          });
+        }
+      }
     }
 
     async function camStop() {
@@ -259,38 +273,17 @@
       });
     }
 
-    async function predict() {
-      const prediction = await model.predict(webcam.canvas);
-
-      for (let i = 0; i < maxPredictions; i++) {
-        const classPrediction = prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-
-        if(prediction[i].className == semMask && prediction[i].probability.toFixed(2) >= 0.80) {
-          if(!esperando) {
-            esperando = true;
-            tempo = setTimeout(function() { registrarAviso(); esperando = false; }, 5000);
-          }
-
-          $(document).ready(function() {
-            $("#comsemMask").css("background-color","#a60013");
-            $('#comsemMask').text('Sem máscara');
-          });
-        } else if(prediction[i].className == comMask && prediction[i].probability.toFixed(2) >= 0.80) {
-          clearTimeout(tempo);
-          esperando = false;
-          $(document).ready(function() {
-            $("#comsemMask").css("background-color","blue");
-            $("#comsemMask").text('Com máscara');
-          });
-        } else if(prediction[i].className == "nao-detectado" && prediction[i].probability.toFixed(2) >= 0.80) {
-          clearTimeout(tempo);
-          esperando = false;
-          $(document).ready(function() {
-            $("#comsemMask").css("background-color","blue");
-            $("#comsemMask").text('Nada detectado');
-          });
-        }
-      }
+    async function botoess() {
+      $(document).ready(function() {
+        $("#botaoIniciar").hide();        
+        $("#botaoParar").show();        
+      });
+    }
+    async function botoesa() {
+      $(document).ready(function() {
+        $("#botaoIniciar").show();        
+        $("#botaoParar").hide();        
+      });
     }
   </script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -320,7 +313,7 @@
           
           <!-- Content Row -->
           <div class="ar-titulo card shadow mb-4">
-            <h1 class="m-0 font-weight-bold text-light" style="text-align:center;padding-top:30px;">Monitoramento</h1>
+            <h1 class="m-0 font-weight-bold text-light" style="text-align:center;padding-top:10px;">Monitoramento</h1>
                       
             <div class="card bg-danger mb-3" id="encontrou" style="display:none;font-size:30px;color:white;">
               <a href="/addAviso" style="text-decoration: none; color:white">Funcionário sem máscara detectado!</a>
@@ -334,7 +327,7 @@
                 <td id="comsemMask">Nada detectado</td>
               </tr>
               <tr>
-                <td>Horário</td>
+                <td>Hor�rio</td>
                 <td id="idHora" style="font-size:30px;"></td>
               </tr>
               <tr>
@@ -352,17 +345,11 @@
 
             <script>
               var idDepartamento;
-              var keuri = `
-              SELECT *
-              FROM avisos;
-              `;
+              var keuri = `SELECT * FROM avisos;`;
 
-        
               $("#selDep").change(function() {
                 idDepartamento = $('#selDep').val();
-
                 $("#tab" + idDepartamento).show();
-                
                 //$("#detalhessobre").text(`Detalhes sobre <%= departamento[2].departamento_nome %>`);
                 /*if ($('#acc_type').val() == "current") {rate = "0.6%";}
                 else if ($('#acc_type').val() == "savings") {rate = "0.8%";}
@@ -380,16 +367,16 @@
                 <tr id="tab<%= tbi.departamento_id %>" style="display: none">
                   <td>Quantidade Funcionarios total</td>
                   <td>quantidade avisos total</td>
-                  <td>último aviso</td>
+                  <td>�ltimo aviso</td>
                 </tr>
               <% }); %>
             
             </table>
           </div>
 
-          <div class="ar-camera card shadow mb-4"">
+          <div class="ar-camera card shadow mb-4">
             <!--  SCRIPT TEACHABLE MACHINE -->
-           <div id="webcam-container"><video id="video" width="1152" height="720" playsinline autoplay></video></div>
+           <div id="webcam-container"><video id="videoX" width="1152" height="720" playsinline autoplay></video></div>
             <!-- <div id="webcam-container" style="height:730px;width:1162px;border-color: white;border-style: solid;"></div> -->
           </div> <!-- row -->
           <script>console.log(navigator.mediaDevices.enumerateDevices())</script>
@@ -402,7 +389,7 @@
                   <i class="fas fa-camera fa-2x"></i>
                 </div>
                 <div class="select">
-                    <label for="videoSource">Câmera: </label><select class="custom-select" id="videoSource"></select>
+                    <label for="videoSource">C�mera: </label><select class="custom-select" id="videoSource"></select>
                 </div>
                 <div class="elem-test col-sm-4">
                   <div class="botoze">
@@ -477,16 +464,16 @@
               navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
               
               function gotStream(stream) {
-                window.stream = stream; // make stream available to console
+                window.stream = stream;
                 videoElement.srcObject = stream;
-                // Refresh button list in case labels have become available
+                
                 return navigator.mediaDevices.enumerateDevices();
               }
               
               function handleError(error) {
                 console.log('navigator.MediaDevices.getUserMedia error: ', error.message, error.name);
               }
-              
+
               function startew() {
                 if (window.stream) {
                   window.stream.getTracks().forEach(track => {
@@ -498,14 +485,12 @@
                   video: {deviceId: videoSource ? {exact: videoSource} : undefined}
                 };
                 navigator.mediaDevices.getUserMedia(constraints).then(gotStream).then(gotDevices).catch(handleError);
+                initw();
               }
               
-              videoSelect.onchange = start;
-              
+              videoSelect.onchange = startew;
+             
               </script>
-
-
-
         </div> <!-- /.container-fluid -->
       </div> <!-- content -->
     </div> <!-- content-wrapper -->
