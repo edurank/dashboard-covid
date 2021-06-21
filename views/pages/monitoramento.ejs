@@ -55,7 +55,7 @@
      font-size: 20px;
     }
 
-    #botaoIniciar, #botaoParar {
+    #botaoIniciar, #botaoParar, #botaoEspera {
       padding: 15px;
       width: 10%;
     }
@@ -162,13 +162,16 @@
   <script type="text/javascript" src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
 
   <script type="text/javascript">
-    const URL = "https://teachablemachine.withgoogle.com/models/ZTFzIfo4P/";
+    //const URL = "https://teachablemachine.withgoogle.com/models/ZTFzIfo4P/";
+    const URL = "https://teachablemachine.withgoogle.com/models/PI5WkIKYD/";
 
     // meu antigo"https://teachablemachine.withgoogle.com/models/PI5WkIKYD/"
     // Model novo: https://teachablemachine.withgoogle.com/models/ZTFzIfo4P/
     let model, webcam, labelContainer, maxPredictions, tempo;
-    let comMask = "Com mascara";
-    let semMask = "Sem mascara";
+    //let comMask = "Com mascara";
+    let comMask = "com-mascara";
+    //let semMask = "Sem mascara";
+    let semMask = "sem-mascara";
     let esperando = true;
     let executado = 0;
 
@@ -205,8 +208,8 @@
     async function predict() {
       //const prediction = await model.predict(webcam.canvas);
 
-      let video = document.getElementById("webcam-container");
-      const prediction = await model.predict({ image: video  });
+      const video = document.getElementById("video");
+      const prediction = await model.predict(video);
  
       for (let i = 0; i < maxPredictions; i++) {
         const classPrediction = prediction[i].className + ": " + prediction[i].probability.toFixed(2);
@@ -243,7 +246,7 @@
     async function camStop() {
       $('#comsemMask').text('Camera desativada.');
       botoesa();
-      await webcam.stop();
+//      await webcam.stop();
       var list =  document.getElementById("webcam-container");
       list.removeChild(list.childNodes[0]);
     }
@@ -254,13 +257,14 @@
       });
 
       registrar();
-
+      /*
       setTimeout(function () {
         $(document).ready(function() {
           $("#encontrou").hide();        
         }); 
-      }, 3000);
+      }, 3000);*/
     }
+
 
     function registrar (){
       executado = 1;
@@ -268,6 +272,7 @@
 
     function showDiv(){
       $('#comsemMask').text('Camera desativada.');
+          $("#botaoEspera").hide();
       $(document).ready(function() {
         $("#encontrou").hide(); 
       });
@@ -276,7 +281,9 @@
     async function botoess() {
       $(document).ready(function() {
         $("#botaoIniciar").hide();        
-        $("#botaoParar").show();        
+        $("#botaoEspera").show();
+        setTimeout(function(){ $("#botaoEspera").hide();$("#botaoParar").show(); }, 3000);
+              
       });
     }
     async function botoesa() {
@@ -285,7 +292,11 @@
         $("#botaoParar").hide();        
       });
     }
+    function confirmaMask() {
+      alert("test");
+    }
   </script>
+
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
@@ -317,6 +328,9 @@
                       
             <div class="card bg-danger mb-3" id="encontrou" style="display:none;font-size:30px;color:white;">
               <a href="/addAviso" style="text-decoration: none; color:white">Funcionário sem máscara detectado!</a>
+              <form id="form-encontrou" action="/monitoramento" method="post">
+                <button type="button" class="btn btn-danger" onclick="confirmaMask()">Confirmar</button>
+              </form>
             </div>
           </div> <!-- row -->
 
@@ -327,7 +341,7 @@
                 <td id="comsemMask">Nada detectado</td>
               </tr>
               <tr>
-                <td>Hor�rio</td>
+                <td>Horário</td>
                 <td id="idHora" style="font-size:30px;"></td>
               </tr>
               <tr>
@@ -367,19 +381,21 @@
                 <tr id="tab<%= tbi.departamento_id %>" style="display: none">
                   <td>Quantidade Funcionarios total</td>
                   <td>quantidade avisos total</td>
-                  <td>�ltimo aviso</td>
+                  <td>último aviso</td>
+
                 </tr>
               <% }); %>
             
+                <%- include('../partials/chart-pie'); %>
+
             </table>
           </div>
 
           <div class="ar-camera card shadow mb-4">
             <!--  SCRIPT TEACHABLE MACHINE -->
-           <div id="webcam-container"><video id="videoX" width="1152" height="720" playsinline autoplay></video></div>
+           <div id="webcam-container"><video id="video" width="1152" height="720" playsinline autoplay></video></div>
             <!-- <div id="webcam-container" style="height:730px;width:1162px;border-color: white;border-style: solid;"></div> -->
           </div> <!-- row -->
-          <script>console.log(navigator.mediaDevices.enumerateDevices())</script>
           <div class="ar-botao card shadow mb-4">
             <div class="container-fluid">
               
@@ -389,35 +405,19 @@
                   <i class="fas fa-camera fa-2x"></i>
                 </div>
                 <div class="select">
-                    <label for="videoSource">C�mera: </label><select class="custom-select" id="videoSource"></select>
+                    <label for="videoSource">Câmera: </label><select class="custom-select" id="videoSource"></select>
                 </div>
                 <div class="elem-test col-sm-4">
                   <div class="botoze">
                     <button type="button" class="btn btn-success btn-lg" id="botaoIniciar" onclick="startew()" style="margin:0;width:300px;">Iniciar</button>
+                    <button type="button" class="btn btn-secondary btn-lg disabled" id="botaoEspera" style="display:none;width:300px;">iniciando...</button>
+                    <button type="button" class="btn btn-danger btn-lg" id="botaoParar" style="display:none;width:300px;" onclick="stopCamera();camStop()">Parar</button>
                   </div>
                 </div>
-                <!-- <div class="elem-test col-sm-1">
-                  <i class="fas fa-camera fa-2x"></i>
-                </div>
-                <div class="elem-test col-sm-2" style="margin-left:-50px;">
-                  <select class="custom-select" id="select-video" aria-label=".form-select-lg example">
-                    <option selected>Selecione o dispositivo...</option>
-                    <option value="1">Webcam 1</option>
-                    <option value="2">Webcam 2</option>
-                  </select>
-                </div>
-                <div class="elem-test col-sm-4">
-                  <div class="botoze">
-                    <button type="button" class="btn btn-success btn-lg" id="botaoIniciar" onclick="initw()" style="margin:0;width:300px;">Iniciar</button>
-                    <button type="button" class="btn btn-danger btn-lg" id="botaoParar" style="display:none;width:300px;" onclick="camStop()">Parar</button>
-                  </div>
-                </div> -->
               </div>
             </div>
           </div>
           <script>showDiv()</script>
-
-
           <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 
           <script>
@@ -429,15 +429,12 @@
               
               
               function gotDevices(deviceInfos) {
-                // Handles being called several times to update labels. Preserve values.
                 const values = selectors.map(select => select.value);
                 selectors.forEach(select => {
                   while (select.firstChild) {
                     select.removeChild(select.firstChild);
                   }
                 });
-          
-                console.log(deviceInfos);
           
                 /* deviceInfos 
                   - array com todos os devices da máquina
@@ -474,12 +471,15 @@
                 console.log('navigator.MediaDevices.getUserMedia error: ', error.message, error.name);
               }
 
-              function startew() {
+              function stopCamera() {
                 if (window.stream) {
                   window.stream.getTracks().forEach(track => {
                     track.stop();
                   });
                 }
+              }
+              function startew() {
+                stopCamera();
                 const videoSource = videoSelect.value;
                 const constraints = {
                   video: {deviceId: videoSource ? {exact: videoSource} : undefined}

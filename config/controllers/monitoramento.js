@@ -1,8 +1,18 @@
-// controllers/monitoramento
+// controllers/monitoramento.js
 var con = require('../connection.js')();
 
 module.exports = function (app) {
   app.get("/monitoramento", function (req, res) {
+    
+    var queryCasosPorDepartamento = `
+    SELECT departamentos.departamento_nome, COUNT(*) as count, departamentos.departamento_id as depid
+    FROM avisos 
+    INNER JOIN funcionarios 
+    ON funcionarios.funcionario_id = avisos.funcionario_id 
+    INNER JOIN departamentos ON funcionarios.departamento_id = departamentos.departamento_id
+    GROUP BY departamentos.departamento_nome
+    ORDER BY count DESC`;
+
     var query = `
       SELECT *
       FROM departamentos
@@ -16,15 +26,31 @@ module.exports = function (app) {
       `;
     con.query(query, function(error, result) {
       if (error) throw error;
-
       con.query(queryInfo, function(erro, rezult) {
         if (erro) throw erro;
-        res.render("pages/monitoramento", {      
-          con: con,
+        con.query(queryCasosPorDepartamento, function(e, resultado) {
+          if (e) throw e;
+
+          var i;
+          var departamentos = [];
+          var dados = [];
+          for(i = 0 ; i < resultado.length; i++){
+            departamentos.push(resultado[i].departamento_nome.toString());
+            dados.push(resultado[i].count.toString());
+          }
+          res.render("pages/monitoramento", {      
+            con: con,
             tabeInfo: rezult,
+            departamentos: departamentos,
+            casosPorDepartamento: dados,
             departamento: result
+          });
         });
       });
     });
+  });
+
+  app.post("/monitoramento", function(req, res) {
+
   });
 }

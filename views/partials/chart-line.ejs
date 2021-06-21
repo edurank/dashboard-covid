@@ -1,19 +1,32 @@
 <script>
-var departamentoss = ["TI", "RH", "Financeiro", "Administração"];
-var dadoss = 'a';
 var colorHexs = ['#FB3640', '#EFCA08', '#43AA8B', '#253D5B'];
+
+var dados = [];
+var rotulos = [];
+
+'<% for(var j = 0; j <  departamentos.length; j++) { %>'
+  rotulos.push('<%- departamentos[j]%>');
+'<% } %>'
+
+'<% for(var j = 0; j <  casosPorDepartamento.length; j++) { %>'
+  dados.push('<%- casosPorDepartamento[j]%>');
+'<% } %>'
+console.log(rotulos);
+console.log(dados);
+
+
 
 var ctx = document.getElementById("myLineChart").getContext('2d');
 var myLineChart = new Chart(ctx, {
   type: 'line',
   data: {
     datasets: [{
-      data: [50, 25, 20, 5],
+      data: dados,
       backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#34a2ff'],
       hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
       hoverBorderColor: "rgba(234, 236, 244, 1)",
     }],
-    labels: departamentoss
+    labels: rotulos
   },
   options: {
     responsive: true,

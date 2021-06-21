@@ -16,6 +16,7 @@ module.exports = function () {
         }
     });
 
+    connection.query("SET lc_time_names = 'pt_PT';", function(e, res){});
 
     return connection;
 }

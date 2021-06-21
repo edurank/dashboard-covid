@@ -33,6 +33,13 @@ module.exports = function (app) {
     DESC LIMIT 3;
     `;
 
+    var qAvisos = `
+      SELECT MONTHNAME(avisos.aviso_data) as aAmes, COUNT(*) as qAavisos
+      FROM avisos
+      GROUP BY YEAR(avisos.aviso_data), MONTH(avisos.aviso_data);
+    `;
+
+
     con.query(queryCasosPorDepartamento, function(e, resultado) {
       if(e) throw e;
 
@@ -53,15 +60,19 @@ module.exports = function (app) {
           
           con.query(ultimosAvisos, function(errro, resx) {
             if (errro) throw errro;
-            console.log(resx);
-            res.render("pages/dashboard", {
-              departamentos: departamentos,
-              casosPorDepartamento: dados,
-              departamento_id: dep_id,
-              total_avisos: result,
-              moment: moment,
-              ultimos_avisos: resx,
-              naoVis: resq
+            con.query(qAvisos, function(e, rx) {
+              if (e) throw e;
+
+              res.render("pages/dashboard", {
+                departamentos: departamentos,
+                casosPorDepartamento: dados,
+                departamento_id: dep_id,
+                total_avisos: result,
+                moment: moment,
+                ultimos_avisos: resx,
+                qAvisos: rx,
+                naoVis: resq
+              });
             });
           });
         });
