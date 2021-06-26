@@ -39,11 +39,6 @@ var dados_numeros = [];
 '<% for(var j = 0; j <  qAvisos.length; j++) { %>'
   dados_numeros.push('<%- qAvisos[j].qAavisos %>');
 '<% } %>'
-console.log(dados_meses);
-console.log(dados_numeros);
-
-
-
 
 var myLineChart = new Chart(ctx, {
   type: 'line',
@@ -68,7 +63,7 @@ var myLineChart = new Chart(ctx, {
   options: {
     maintainAspectRatio: false,
     animation: {
-      duration: 1500,
+      duration: 500,
       easing: 'easeInQuint',
     },
     layout: {
@@ -142,8 +137,8 @@ var myLineChart = new Chart(ctx, {
       titleFontSize: 14,
       borderColor: '#dddfeb',
       borderWidth: 1,
-      xPadding: 15,
-      yPadding: 15,
+      xPadding: 5,
+      yPadding: 5,
       displayColors: false,
       intersect: true,
       mode: 'index',

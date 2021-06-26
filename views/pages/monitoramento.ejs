@@ -9,427 +9,443 @@
   <title>EPI Vision</title>
 
   <script>
-    function startTime() {
-      var today = new Date();
-      var h = today.getHours();
-      var m = today.getMinutes();
-      var s = today.getSeconds();
-      m = checkTime(m);
-      s = checkTime(s);
-      document.getElementById('idHora').innerHTML = h + ":" + m + ":" + s;
-      var t = setTimeout(startTime, 1000);
-    }
+  function startTime() {
+    var today = new Date();
+    var h = today.getHours();
+    var m = today.getMinutes();
+    var s = today.getSeconds();
+  m = checkTime(m);
+  s = checkTime(s);
+  document.getElementById('idHora').innerHTML = h + ":" + m + ":" + s;
+  var t = setTimeout(startTime, 1000);
+}
 
-    function checkTime(i) {
-      if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-      return i;
-    }
+function checkTime(i) {
+  if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+  return i;
+}
 
-    function registrarAviso() {
-      //alert("teste");
-    }
-  </script>
+function registrarAviso() {
+  //alert("teste");
+}
+</script>
 
-  <style>  
-    #webcam-camera {
-      margin-left: 20px;
-    }
-
-    #comsemMask {
-      color:white;
-      font-size: 30px;
-    }
-
-    #idHora {
-      color: white;
-      font-size: 50px;
-    }
-
-    th {
-     color:white;
-     font-size: 20px;
-    }
-
-    td {
-      color:white;
-     font-size: 20px;
-    }
-
-    #botaoIniciar, #botaoParar, #botaoEspera {
-      padding: 15px;
-      width: 10%;
-    }
-
-    #encontrou {
-      font-size: 10px;
-    }
-
-    .botoze {
-      margin-left: 20%;
-    }
-
-    .ar-botao-dois {
-      display: inline;
-      border: 1px solid white;
-    }
-    
-    .grid-container {
-      padding: 20px;
-      display: grid;
-      grid-auto-columns: 1fr; 
-      grid-template-columns: 0.6fr 1.7fr; 
-      grid-template-rows: 0.22fr 1.8fr 1.5fr; 
-      gap: 10px 30px;
-      grid-auto-flow: row;
-      grid-template-areas:
-        "ar-titulo ar-titulo"
-        "ar-tabela ar-camera"
-        "ar-botao ar-botao";
-    }
-    
-
-    .ar-titulo { grid-area: ar-titulo; }
-
-    .ar-tabela { grid-area: ar-tabela; }
-
-    .ar-botao { grid-area: ar-botao; height: 150px; }
-
-    .ar-camera { grid-area: ar-camera; }
-
-    .tabella {
-      padding: 20px;
-      margin-top: 20px;
-    }
-
-    .custom-select {
-      position: relative;
-      font-family: Arial;
-    }
-
-    .custom-select select {
-      display: none; 
-    }
-
-    .select-selected {
-      background-color: rgb(255, 0, 0);
-    }
-
- 
-    .select-selected:after {
-      position: absolute;
-      content: "";
-      top: 14px;
-      right: 10px;
-      width: 0;
-      height: 0;
-      border: 6px solid transparent;
-      border-color: #fff transparent transparent transparent;
-    }
+<style>  
 
 
-    .select-selected.select-arrow-active:after {
-      border-color: transparent transparent #fff transparent;
-      top: 7px;
-    }
+
+#webcam-camera {
+
+  margin-left: 20px;
+}
+
+#comsemMask {
+  color:white;
+  font-size: 30px;
+}
+
+#idHora {
+  color: white;
+  font-size: 50px;
+}
+
+th {
+ color:white;
+ font-size: 20px;
+}
+
+td {
+  color:white;
+ font-size: 20px;
+}
+
+#botaoIniciar, #botaoParar, #botaoEspera {
+  padding: 15px;
+  width: 10%;
+}
+
+#encontrou {
+  font-size: 10px;
+}
+
+.botoze {
+  margin-left: 20%;
+}
+
+.elem-test {
+  float:right;
+}
+.ar-botao-dois {
+  display: inline;
+  border: 1px solid white;
+}
+
+.v-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.grid-container {
+  padding: 20px;
+  display: grid;
+  grid-auto-columns: 1fr; 
+  grid-template-columns: 0.6fr 1.7fr; 
+  grid-template-rows: 0.22fr 1.8fr 1.5fr; 
+  gap: 10px 30px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "ar-titulo ar-titulo"
+    "ar-tabela ar-camera"
+    "ar-botao ar-botao";
+}
 
 
-    .select-items div,.select-selected {
-      color: #ffffff;
-      padding: 8px 16px;
-      border: 1px solid transparent;
-      border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
-      cursor: pointer;
-    }
+.ar-titulo { grid-area: ar-titulo; }
 
-    .select-items {
-      position: absolute;
-      background-color: DodgerBlue;
-      top: 100%;
-      left: 0;
-      right: 0;
-      z-index: 99;
-    }
+.ar-tabela { grid-area: ar-tabela; }
 
-    .select-hide {
-      display: none;
-    }
+.ar-botao { grid-area: ar-botao; height: 150px; }
 
-    .select-items div:hover, .same-as-selected {
-      background-color: rgba(0, 0, 0, 0.1);
-    }
-  </style>
+.ar-camera { grid-area: ar-camera; }
 
-  <script type="text/javascript" src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
+.tabella {
+  padding: 20px;
+  margin-top: 20px;
+}
 
-  <script type="text/javascript">
-    //const URL = "https://teachablemachine.withgoogle.com/models/ZTFzIfo4P/";
-    const URL = "https://teachablemachine.withgoogle.com/models/PI5WkIKYD/";
+.custom-select {
+  position: relative;
+  font-family: Arial;
+}
 
-    // meu antigo"https://teachablemachine.withgoogle.com/models/PI5WkIKYD/"
-    // Model novo: https://teachablemachine.withgoogle.com/models/ZTFzIfo4P/
-    let model, webcam, labelContainer, maxPredictions, tempo;
-    //let comMask = "Com mascara";
-    let comMask = "com-mascara";
-    //let semMask = "Sem mascara";
-    let semMask = "sem-mascara";
-    let esperando = true;
-    let executado = 0;
+.custom-select select {
+  display: none; 
+}
 
-    async function initw() {
-      botoess();
-      const modelURL = URL + "model.json";
-      const metadataURL = URL + "metadata.json";
-      const flip = true;
+.select-selected {
+  background-color: rgb(255, 0, 0);
+}
 
-      model = await tmImage.load(modelURL, metadataURL);
-      maxPredictions = model.getTotalClasses();
-      //webcam = new tmImage.Webcam(1152, 720, flip);
-      //const webelement = document.getElementById("webcamcam");
-      //webcam = new Webcam(webelement, 'user');
 
-      //webcam.start();
-      //await webcam.setup();
-      //await webcam.play();
-      window.requestAnimationFrame(loop);
+.select-selected:after {
+  position: absolute;
+  content: "";
+  top: 14px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: #fff transparent transparent transparent;
+}
 
-      //document.getElementById("webcam-container").appendChild(webcam.canvas);
-      labelContainer = document.getElementById("label-container");
 
-      for (let i = 0; i < maxPredictions; i++) {
-        labelContainer.appendChild(document.createElement("div"));
+.select-selected.select-arrow-active:after {
+  border-color: transparent transparent #fff transparent;
+  top: 7px;
+}
+
+
+.select-items div,.select-selected {
+  color: #ffffff;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+  cursor: pointer;
+}
+
+.select-items {
+  position: absolute;
+  background-color: DodgerBlue;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+}
+
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover, .same-as-selected {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+</style>
+
+<script type="text/javascript" src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
+
+<script type="text/javascript">
+const URL = "https://teachablemachine.withgoogle.com/models/ZTFzIfo4P/";
+//const URL = "https://teachablemachine.withgoogle.com/models/PI5WkIKYD/";
+
+// meu antigo"https://teachablemachine.withgoogle.com/models/PI5WkIKYD/"
+// Model novo: https://teachablemachine.withgoogle.com/models/ZTFzIfo4P/
+let model, webcam, labelContainer, maxPredictions, tempo;
+let comMask = "Com mascara";
+//let comMask = "com-mascara";
+let semMask = "Sem mascara";
+//let semMask = "sem-mascara";
+let esperando = true;
+let executado = 0;
+
+async function initw() {
+  botoess();
+  const modelURL = URL + "model.json";
+  const metadataURL = URL + "metadata.json";
+  const flip = true;
+
+  model = await tmImage.load(modelURL, metadataURL);
+  maxPredictions = model.getTotalClasses();
+  //webcam = new tmImage.Webcam(1152, 720, flip);
+  //const webelement = document.getElementById("webcamcam");
+  //webcam = new Webcam(webelement, 'user');
+
+  //webcam.start();
+  //await webcam.setup();
+  //await webcam.play();
+  window.requestAnimationFrame(loop);
+
+  //document.getElementById("webcam-container").appendChild(webcam.canvas);
+  /*labelContainer = document.getElementById("label-container");
+
+  for (let i = 0; i < maxPredictions; i++) {
+    labelContainer.appendChild(document.createElement("div"));
+  }*/
+}
+
+async function loop() {
+  //webcam.update(); 
+  await predict();
+  window.requestAnimationFrame(loop);
+}
+async function predict() {
+  //const prediction = await model.predict(webcam.canvas);
+
+  const video = document.getElementById("video");
+  const prediction = await model.predict(video);
+
+  for (let i = 0; i < maxPredictions; i++) {
+    const classPrediction = prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+    const prob_label = prediction[i].className;
+    const probabilidade = prediction[i].probability.toFixed(2);
+
+    if(prob_label == semMask && probabilidade >= 0.80) {
+      if(!esperando) {
+        esperando = true;
+        tempo = setTimeout(function() { registrarAviso(); esperando = false; }, 5000);
       }
+      $(document).ready(function() {
+        $("#comsemMask").css("background-color","#a60013");
+        $('#comsemMask').text('Sem máscara');
+      });
+    } else if(prob_label == comMask && probabilidade >= 0.80) {
+      clearTimeout(tempo);
+      esperando = false;
+      $(document).ready(function() {
+        $("#comsemMask").css("background-color","blue");
+        $("#comsemMask").text('Com máscara');
+      });
+    } else if(prob_label == "nao-detectado" && probabilidade >= 0.80) {
+      clearTimeout(tempo);
+      esperando = false;
+      $(document).ready(function() {
+        $("#comsemMask").css("background-color","blue");
+        $("#comsemMask").text('Nada detectado');
+      });
     }
+  }
+}
 
-    async function loop() {
-      //webcam.update(); 
-      await predict();
-      window.requestAnimationFrame(loop);
-    }
-    async function predict() {
-      //const prediction = await model.predict(webcam.canvas);
-
-      const video = document.getElementById("video");
-      const prediction = await model.predict(video);
- 
-      for (let i = 0; i < maxPredictions; i++) {
-        const classPrediction = prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-        const prob_label = prediction[i].className;
-        const probabilidade = prediction[i].probability.toFixed(2);
-
-        if(prob_label == semMask && probabilidade >= 0.80) {
-          if(!esperando) {
-            esperando = true;
-            tempo = setTimeout(function() { registrarAviso(); esperando = false; }, 5000);
-          }
-          $(document).ready(function() {
-            $("#comsemMask").css("background-color","#a60013");
-            $('#comsemMask').text('Sem máscara');
-          });
-        } else if(prob_label == comMask && probabilidade >= 0.80) {
-          clearTimeout(tempo);
-          esperando = false;
-          $(document).ready(function() {
-            $("#comsemMask").css("background-color","blue");
-            $("#comsemMask").text('Com máscara');
-          });
-        } else if(prob_label == "nao-detectado" && probabilidade >= 0.80) {
-          clearTimeout(tempo);
-          esperando = false;
-          $(document).ready(function() {
-            $("#comsemMask").css("background-color","blue");
-            $("#comsemMask").text('Nada detectado');
-          });
-        }
-      }
-    }
-
-    async function camStop() {
-      $('#comsemMask').text('Camera desativada.');
-      botoesa();
+async function camStop() {
+  $('#comsemMask').text('Camera desativada.');
+  botoesa();
 //      await webcam.stop();
-      var list =  document.getElementById("webcam-container");
-      list.removeChild(list.childNodes[0]);
-    }
+  var list =  document.getElementById("webcam-container");
+  list.removeChild(list.childNodes[0]);
+}
 
-    async function registrarAviso() {
-      $(document).ready(function() {
-        $("#encontrou").show();        
-      });
+async function registrarAviso() {
+  $(document).ready(function() {
+    $("#encontrou").show();        
+  });
 
-      registrar();
-      /*
-      setTimeout(function () {
-        $(document).ready(function() {
-          $("#encontrou").hide();        
-        }); 
-      }, 3000);*/
-    }
-
-
-    function registrar (){
-      executado = 1;
-    }
-
-    function showDiv(){
-      $('#comsemMask').text('Camera desativada.');
-          $("#botaoEspera").hide();
-      $(document).ready(function() {
-        $("#encontrou").hide(); 
-      });
-    }
-
-    async function botoess() {
-      $(document).ready(function() {
-        $("#botaoIniciar").hide();        
-        $("#botaoEspera").show();
-        setTimeout(function(){ $("#botaoEspera").hide();$("#botaoParar").show(); }, 3000);
-              
-      });
-    }
-    async function botoesa() {
-      $(document).ready(function() {
-        $("#botaoIniciar").show();        
-        $("#botaoParar").hide();        
-      });
-    }
-    function confirmaMask() {
-      alert("test");
-    }
-  </script>
-
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
+  registrar();
+  /*
+  setTimeout(function () {
+    $(document).ready(function() {
+      $("#encontrou").hide();        
+    }); 
+  }, 3000);*/
+}
 
 
-  <!-- Custom fonts for this template-->
-  <link href="./vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link
-  href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-  rel="stylesheet">
-  <link rel="shortcut icon" href="./vendor/fontawesome-free/svgs/solid/eye.svg">
-  <link rel="shortcut icon" href="./vendor/fontawesome-free/svgs/solid/address-book.svg">
-  <!-- Custom styles for this template-->
-  <link href="./css/sb-admin-2.css" rel="stylesheet">
+function registrar (){
+  executado = 1;
+}
+
+function showDiv(){
+  $('#comsemMask').text('Camera desativada.');
+      $("#botaoEspera").hide();
+  $(document).ready(function() {
+    $("#encontrou").hide(); 
+  });
+}
+
+async function botoess() {
+  $(document).ready(function() {
+    $("#botaoIniciar").hide();        
+    $("#botaoEspera").show();
+    setTimeout(function(){ $("#botaoEspera").hide();$("#botaoParar").show(); }, 3000);
+          
+  });
+}
+async function botoesa() {
+  $(document).ready(function() {
+    $("#botaoIniciar").show();        
+    $("#botaoParar").hide();        
+  });
+}
+function confirmaMask() {
+}
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+
+
+<!-- Custom fonts for this template-->
+<link href="./vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+<link
+href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+rel="stylesheet">
+<link rel="shortcut icon" href="./vendor/fontawesome-free/svgs/solid/eye.svg">
+<link rel="shortcut icon" href="./vendor/fontawesome-free/svgs/solid/address-book.svg">
+<!-- Custom styles for this template-->
+<link href="./css/sb-admin-2.css" rel="stylesheet">
 </head>
 <body onload="startTime()">
-  <div id="wrapper">
-    <!-- Sidebar -->
-    <%- include('../partials/sidebar'); %>
-    <div id="content-wrapper">
-      <!-- Main Content -->
-      <div id="content">
-        <!-- Begin Page Content -->
-        <div class="grid-container">
-          
-          <!-- Content Row -->
-          <div class="ar-titulo card shadow mb-4">
-            <h1 class="m-0 font-weight-bold text-light" style="text-align:center;padding-top:10px;">Monitoramento</h1>
-                      
-            <div class="card bg-danger mb-3" id="encontrou" style="display:none;font-size:30px;color:white;">
-              <a href="/addAviso" style="text-decoration: none; color:white">Funcionário sem máscara detectado!</a>
-              <form id="form-encontrou" action="/monitoramento" method="post">
-                <button type="button" class="btn btn-danger" onclick="confirmaMask()">Confirmar</button>
-              </form>
-            </div>
-          </div> <!-- row -->
-
-          <div class="ar-tabela card shadow mb-4">
-            <table class="tabella table table-bordered table-striped sortable">
-              <tr>
-                <td>Status</td>
-                <td id="comsemMask">Nada detectado</td>
-              </tr>
-              <tr>
-                <td>Horário</td>
-                <td id="idHora" style="font-size:30px;"></td>
-              </tr>
-              <tr>
-                <td>Local</td>
-                <td>
-                <select class="custom-select" id="selDep" aria-label=".form-select-lg example">
-                    <option selected>Local...</option>
-                  <% departamento.forEach(function (dep) { %>
-                    <option value="<%= dep.departamento_id %>"><%= dep.departamento_nome  %></option>
-                  <% }); %>
-                </select>
-                <td>
-              </tr>
-            </table>
-
-            <script>
-              var idDepartamento;
-              var keuri = `SELECT * FROM avisos;`;
-
-              $("#selDep").change(function() {
-                idDepartamento = $('#selDep').val();
-                $("#tab" + idDepartamento).show();
-                //$("#detalhessobre").text(`Detalhes sobre <%= departamento[2].departamento_nome %>`);
-                /*if ($('#acc_type').val() == "current") {rate = "0.6%";}
-                else if ($('#acc_type').val() == "savings") {rate = "0.8%";}
-                $(#selDep).val();
-                $('#interest').val(rate);*/
-                console.log(idDepartamento);
-              });
-            </script>
-
-            <span id="detalhessobre">Detalhes sobre</span>
-
-            <table class="tabella table table-bordered table-striped sortable">
-              
-              <% tabeInfo.forEach(function(tbi) { %>
-                <tr id="tab<%= tbi.departamento_id %>" style="display: none">
-                  <td>Quantidade Funcionarios total</td>
-                  <td>quantidade avisos total</td>
-                  <td>último aviso</td>
-
-                </tr>
-              <% }); %>
-            
-                <%- include('../partials/chart-pie'); %>
-
-            </table>
+<div id="wrapper">
+<!-- Sidebar -->
+<%- include('../partials/sidebar'); %>
+<div id="content-wrapper">
+  <!-- Main Content -->
+  <div id="content">
+    <!-- Begin Page Content -->
+    <div class="grid-container">
+      
+      <!-- Content Row -->
+      <div class="ar-titulo card shadow mb-4">
+        <h1 class="m-0 font-weight-bold text-light" style="text-align:center;padding-top:10px;">Monitoramento</h1>
+                  
+        <div class="card bg-danger mb-3" id="encontrou" style="display:none;font-size:30px;color:white;">
+          <a href="/addAviso" style="text-decoration: none; color:white">Funcionário sem máscara detectado!</a>
+            <form id="form-encontrou" action="/monitoramento" method="post">
+              <button type="submit" class="btn btn-danger" onclick="confirmaMask()">Confirmar</button>
+            </form>
           </div>
+        </div> <!-- row -->
 
-          <div class="ar-camera card shadow mb-4">
-            <!--  SCRIPT TEACHABLE MACHINE -->
-           <div id="webcam-container"><video id="video" width="1152" height="720" playsinline autoplay></video></div>
-            <!-- <div id="webcam-container" style="height:730px;width:1162px;border-color: white;border-style: solid;"></div> -->
-          </div> <!-- row -->
-          <div class="ar-botao card shadow mb-4">
-            <div class="container-fluid">
-              
-              <div class="row">
+        <div class="ar-tabela card shadow mb-4">
+          <table class="tabella table table-bordered table-striped sortable">
+            <tr>
+              <td>Status</td>
+              <td id="comsemMask">Nada detectado</td>
+            </tr>
+            <tr>
+              <td>Horário</td>
+              <td id="idHora" style="font-size:30px;"></td>
+            </tr>
+            <tr>
+              <td>Local</td>
+              <td>
+              <select class="custom-select" id="selDep" aria-label=".form-select-lg example">
+                  <option selected>Selecione o departamento:</option>
+                <% departamento.forEach(function (dep) { %>
+                  <option value="<%= dep.departamento_id %>"><%= dep.departamento_nome  %></option>
+                <% }); %>
+              </select>
+              </td>
+            </tr>
+          </table>
 
-                <div class="elem-test col-sm-1">
-                  <i class="fas fa-camera fa-2x"></i>
-                </div>
+          <script>
+            var idDepartamento;
+            $("#selDep").change(function() {
+              idDepartamento = $('#selDep').val();
+              console.log(idDepartamento);
+              $("#detalheDep").empty();
+              $('#detalhessobre').empty();
+              $('#detalheDep').hide('normal');
+              if($.isNumeric(idDepartamento)) {
+                $.get("/dadosDep/" + idDepartamento, function (dados) {
+                  var aux = "<table class='tabella table table-bordered table-striped'>";
+                  aux += "<tr style=''><td>Funcionários (total)</td></tr>";
+                  aux += "<tr><td>" + dados[0].funcionarios; + "</td></tr>";
+                  aux += "<tr style=''><td>Avisos (total)</td></tr>";
+                  aux += "<tr><td>" + dados[0].avisos; + "</td></tr>";
+                  aux += "<tr style=''><td>Ultimo aviso</td></tr>";
+                  if(dados[0].ultimo_aviso != null) {
+                    aux += "<tr><td><a style='text-decoration:none;color:white' href='/avisos/" + idDepartamento + "'>" + moment(dados[0].ultimo_aviso).format('DD/MM/YY') + " às " + moment(dados[0].ultimo_aviso).format("HH:mm:ss") + "</a></td></tr>";
+                  } else {
+                    aux += "<tr><td>Nenhum</td></tr>";
+                  }
+                  aux += "</table>";
+                  $('#detalheDep').append(aux);
+                  $('#detalheDep').show('slow');
+                  $('#detalhessobre').append("<span style='font-size:30px;margin:20px'>Detalhes sobre " + $("#selDep option:selected").html() + "</span>");
+                });
+              }
+            });
+          </script>
+
+          <div id="detalhessobre" style="color:white;"></div>
+          <div id="detalheDep" style="display:none;"></div>
+        </div>
+
+        <div class="ar-camera card shadow mb-4">
+          <!--  SCRIPT TEACHABLE MACHINE -->
+         <div id="webcam-container"><video id="video" width="1152" height="720" playsinline autoplay></video></div>
+        </div> <!-- row -->
+        <div class="ar-botao card shadow mb-4">
+          <div class="container-fluid">
+            
+            <div class="row">
+
+              <div class="elem-test">
+                <i class="fas fa-camera fa-2x"></i>
+              </div>
+              <div class="elem-test col-sm-2">
                 <div class="select">
-                    <label for="videoSource">Câmera: </label><select class="custom-select" id="videoSource"></select>
+                    <select class="custom-select" id="videoSource"></select>
                 </div>
-                <div class="elem-test col-sm-4">
-                  <div class="botoze">
-                    <button type="button" class="btn btn-success btn-lg" id="botaoIniciar" onclick="startew()" style="margin:0;width:300px;">Iniciar</button>
-                    <button type="button" class="btn btn-secondary btn-lg disabled" id="botaoEspera" style="display:none;width:300px;">iniciando...</button>
-                    <button type="button" class="btn btn-danger btn-lg" id="botaoParar" style="display:none;width:300px;" onclick="stopCamera();camStop()">Parar</button>
-                  </div>
+              </div>
+              <div class="elem-test col-sm-4">
+                <div class="botoze">
+                  <button type="button" class="btn btn-success btn-lg" id="botaoIniciar" onclick="startew()" style="margin:0;width:300px;">Iniciar</button>
+                  <button type="button" class="btn btn-secondary btn-lg disabled" id="botaoEspera" style="display:none;width:300px;">iniciando...</button>
+                  <button type="button" class="btn btn-danger btn-lg" id="botaoParar" style="display:none;width:300px;" onclick="stopCamera();camStop()">Parar</button>
                 </div>
               </div>
             </div>
           </div>
-          <script>showDiv()</script>
-          <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+        </div>
+        <script>showDiv()</script>
+        <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 
-          <script>
-              'use strict';
-              
-              const videoElement = document.querySelector('video');
-              const videoSelect =  document.querySelector('select#videoSource');
-              const selectors = [videoSelect];
-              
-              
-              function gotDevices(deviceInfos) {
-                const values = selectors.map(select => select.value);
+        <script>
+            'use strict';
+            
+            const videoElement = document.querySelector('video');
+            const videoSelect =  document.querySelector('select#videoSource');
+            const selectors = [videoSelect];
+            
+            
+            function gotDevices(deviceInfos) {
+              const values = selectors.map(select => select.value);
                 selectors.forEach(select => {
                   while (select.firstChild) {
                     select.removeChild(select.firstChild);

@@ -34,21 +34,21 @@ module.exports = function(passport){
         usernameField: 'username',
         passwordField: 'password'
     },
-        (username, password, done) => {
-            try {
-                const user = findUser(username);
-    
-                // usuário inexistent
-                if (!user) { return done(null, false) }
+      (username, password, done) => {
+        try {
+          const user = findUser(username);
 
-                // comparando as senhas
-                const isValid = bcrypt.compareSync(password, user.password);
-                if (!isValid) return done(null, false)
-                
-                return done(null, user)
-            } catch (err) {
-                done(err, false);
-            }
+          // usuário inexistent
+          if (!user) { return done(null, false) }
+
+          // comparando as senhas
+          const isValid = bcrypt.compareSync(password, user.password);
+          if (!isValid) return done(null, false)
+          
+          return done(null, user)
+        } catch (err) {
+          done(err, false);
         }
+      }
     ));
 }

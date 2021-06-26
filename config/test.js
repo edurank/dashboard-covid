@@ -1,7 +1,12 @@
-/*-- avisos capturar filtragem por mes  (datetime)
+/*-- informações na tabela do monitoramento 
 ex.
 {
-  "05/2021" : "6",   // '6' -- contagem de avisos nesse mês
+  1. A pessoa escolhe departamento
+  2. tabela com informações
+    - por departamento
+    - pessoas cadastradas nesse departamento
+    - quantidade de avisos nesse departamento
+    - ultimo aviso nesse departamento
 }
 */
 const cox = require('./connection.js')();

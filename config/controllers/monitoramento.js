@@ -49,8 +49,16 @@ module.exports = function (app) {
       });
     });
   });
-
-  app.post("/monitoramento", function(req, res) {
-
+ 
+  app.get("/dadosDep/:id", function(req, res) {
+    var query = `SELECT
+    (SELECT COUNT(*) FROM funcionarios WHERE departamento_id = `+ req.params.id + `) as funcionarios,
+    (SELECT COUNT(*) FROM avisos WHERE departamento_id = `+ req.params.id + `) as avisos,
+    (SELECT aviso_data FROM avisos WHERE departamento_id = `+ req.params.id + ` ORDER BY avisos.aviso_data LIMIT 1) as ultimo_aviso`; 
+    
+    con.query(query, function(e, dados) {
+      if (e) throw e;
+      res.send(dados); 
+    });
   });
 }

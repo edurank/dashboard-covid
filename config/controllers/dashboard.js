@@ -4,7 +4,6 @@ const moment = require('moment');
 
 
 module.exports = function (app) {
-
   app.get("/dashboard", function (req, res){
       
     var queryCasosPorDepartamento = `
@@ -56,13 +55,11 @@ module.exports = function (app) {
         if (err) throw err;
 
         con.query(avisosNaoVis, function(errr, resq) {
-          console.log("Resq: " + resq);
-          
+          if (errr) throw errr;
           con.query(ultimosAvisos, function(errro, resx) {
             if (errro) throw errro;
             con.query(qAvisos, function(e, rx) {
               if (e) throw e;
-
               res.render("pages/dashboard", {
                 departamentos: departamentos,
                 casosPorDepartamento: dados,
@@ -79,6 +76,5 @@ module.exports = function (app) {
       });
     });
   })
-
 }
 

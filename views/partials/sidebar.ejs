@@ -1,94 +1,97 @@
-        <style>
-        </style>
-        
-        <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<style>
+.item-sidebar {
+  font-size: 30px;
+}
+</style>
 
-            <!-- Sidebar - Brand -->
-            <a href="/dashboard" class="sidebar-brand d-flex align-items-center justify-content-center">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="far fa-eye"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">EPI Vision</div>
-            </a>
+<!-- Sidebar -->
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
+  <!-- Sidebar - Logo -->
+  <a href="/dashboard" class="sidebar-brand d-flex align-items-center justify-content-center">
+    <div class="sidebar-brand-icon rotate-n-15">
+      <i class="far fa-eye"></i>
+    </div>
+    <div class="sidebar-brand-text mx-3">EPI Vision</div>
+  </a>
 
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-            <a class="nav-link" href="/dashboard">
-                <i class="fas fa-fw fa-chart-area"></i>
-                <span>Dashboard</span></a>
-            </li>
+  <!-- Divider -->
+  <hr class="sidebar-divider my-0">
 
-            <!-- Nav Item - Monitoramento -->
-            <li class="nav-item active">
-            <a class="nav-link" href="/monitoramento">
-                <i class="fas fa-camera"></i>
-                <span>Monitoramento</span></a>
-            </li>
-             
-            <!-- Nav Item - Funcionario Collapse -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFunc"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-address-book"></i>
-                    <span>Funcionários</span>
-                </a>
-                <div id="collapseFunc" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="/avisos">Avisos</a>
-                        <a class="collapse-item" href="/funcionarios">Consultar Funcionários</a>
-                    </div>
-                </div>
-            </li>
+  <!-- Nav Item - Dashboard -->
+  <li class="nav-item active">
+    <a class="nav-link" href="/dashboard">
+    <i class="fas fa-fw fa-chart-area"></i>
+    <span class="item-sidebar">Dashboard</span></a>
+  </li>
 
+  <!-- Nav Item - Monitoramento -->
+  <li class="nav-item active">
+    <a class="nav-link" href="/monitoramento">
+    <i class="fas fa-camera"></i>
+    <span class="item-sidebar">Monitoramento</span></a>
+  </li>
+   
+  <!-- Nav Item - Funcionario Collapse -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFunc"
+      aria-expanded="true" aria-controls="collapseTwo">
+      <i class="fas fa-fw fa-address-book"></i>
+      <span>Funcionários</span>
+    </a>
+    <div id="collapseFunc" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <a class="collapse-item" href="/avisos">Avisos</a>
+        <a class="collapse-item" href="/funcionarios">Consultar Funcionários</a>
+      </div>
+    </div>
+  </li>
+  <!-- Divider -->
+  <hr class="sidebar-divider">
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
+  <!-- Nav Item - Collapse Login Usuário -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+      aria-expanded="true" aria-controls="collapsePages">
+      <i class="fas fa-fw fa-cog"></i>
+      <span>Configurações</span>
+    </a>
+    <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <h6 class="collapse-header">Login Screens:</h6>
+        <a class="collapse-item" href="/">Login</a>
+        <a class="collapse-item" href="/cadastrar">Registrar</a>
+        <a class="collapse-item" href="#">Esqueceu a senha</a>
+      </div>
+    </div>
+  </li>
 
-            <!-- Nav Item - Collapse Login Usuário -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Config.</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="/">Login</a>
-                        <a class="collapse-item" href="/cadastrar">Registrar</a>
-                        <a class="collapse-item" href="#">Esqueceu a senha</a>
-                    </div>
-            </li>
+  <!-- Divider -->
+  <hr class="sidebar-divider d-none d-md-block">
 
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
+  <!-- Nav Item - Pages Collapse Menu -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsuario"
+      aria-expanded="true" aria-controls="collapsePages">
+      <i class="fas fa-fw fa-user"></i>
+      <% if(typeof usuario === "undefined") { %>
+        <!-- ??? -->
+      <% } else { %>
+        <span>Bem vindo, <%= usuario %></span>
+      <% } %>
+    </a>
+    <div id="collapseUsuario" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <h6 class="collapse-header">Opções</h6>
+        <a class="collapse-item" href="/conf">Meu usuário</a>
+        <a class="collapse-item" href="/login">Sair</a>
+      </div>
+    </div>
+  </li>
 
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsuario"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-user"></i>
-                    <% if(typeof usuario === "undefined") { %>
-                   
-                    <% } else { %>
-                        <span>Bem vindo, <%= usuario %></span> 
-                    <% } %>
-                </a>
-                <div id="collapseUsuario" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Opções</h6>
-                        <a class="collapse-item" href="/conf">Meu usuário</a>
-                        <a class="collapse-item" href="/login">Sair</a>
-                </div>
-            </li>
-
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-        </ul>
-        <!-- End of Sidebar -->
+  <!-- Sidebar Toggler (Sidebar) -->
+  <div class="text-center d-none d-md-inline">
+    <button class="rounded-circle border-0" id="sidebarToggle"></button>
+  </div>
+</ul>
+<!-- End of Sidebar -->

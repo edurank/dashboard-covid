@@ -1,0 +1,42 @@
+<head>
+
+  <script src="./vendor/jquery/jquery.min.js"></script>
+
+</head>
+
+<script>
+  $(document).ready(function() {
+    $("#inputao").on("input", function() {
+      $('#dados').empty();
+      var _id = $("#inputao").val();
+      if($.isNumeric(_id)) {
+        $.get('/dados/' + _id, function (dados) {
+          if(dados.length > 0){
+            var aux = "<table style='border: 1px solid black;'><th>NOME</th><th>IDADE</th>";
+
+            for(i = 0; i < dados.length; i++) {
+              aux = aux + "<tr><td style='border:1px solid red;'>" + dados[i].funcionario_nome +  "</td><td>" + dados[i].idade + "</td></tr>";
+            }
+
+            aux += "</table>";
+            $('#dados').append(aux);
+          } else {
+            $('#dados').append('<h1>funcionario nao existente</h1>');
+          }
+        });
+      } else {
+        $('#dados').append('<h1>NãO é UM NúMERO</h1>');
+      }
+    });
+  });
+</script>
+
+<body>
+
+  <input id="inputao"></input>
+  <div id="dados">
+
+  </div>
+
+</body>
+
